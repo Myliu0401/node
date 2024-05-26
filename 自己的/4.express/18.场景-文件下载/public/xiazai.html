@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="/dow/longmao.jpg">下载龙猫图片</a>
+    <a id="xu" href="">迅雷下载龙猫图片</a>
+    <script>
+        const a = document.getElementById('xu');
+        const src = `AA${a.href}ZZ`;
+
+        const b64 = window.btoa(src);
+
+        a.href = 'thunder://' + b64;
+    </script>
+</body>
+
+</html>

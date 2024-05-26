@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* async function mi() {
+          //  console.log(456)
+            throw 123
+        }
+        async function mo() {
+            const err = await mi()
+            console.log(err,'=====')
+        }
+        mo() */
+
+        /*  function a(){
+             throw 123
+         }
+         a()
+         console.log('======') */
+
+        const po = new Promise((sa, sb) => {
+            throw 123
+        })
+        po.catch(()=>{}); //
+    </script>
+</body>
+
+</html>

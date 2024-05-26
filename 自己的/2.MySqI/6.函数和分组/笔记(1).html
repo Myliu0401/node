@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+                    必须在函数前面加上 select命名 表示查询
+
+                      函数和分组
+                          函数: 
+                             内置函数: 
+                                  数学: 
+                                    ABS(x) 返回x的绝对值
+                                    CEILING(x) 返回大于的最小整数 相当于向上取整
+                                    FLOOR(x)  返回小于x的最大整数  相当于向下取整
+                                    MOD(x,y)  返回x/y的莫 (相当于余数)
+                                    PI()  返回pi的值(也就是圆周率)
+                                    RAND()  返回0到1以内的随机数
+                                    ROUND(x,y)   返回参数x的四舍五入的有y位小数的值
+                                    TRUNCATE(x,y)  返回数字x截断为y位小数的结果 (表示将x数的小数点后,以y为进行截断)
+
+                                  聚合: 
+                                    AVG(col)  返回指定列的平均值
+                                      但是,如果用这个函数 在查询时不能查询其他属性
+                                      如: select AVG(xxx),id 这样会报错
+                                    
+                                    COUNT(col)  返回指定列中非null值的个数
+                                        如:COUNT(id) 返回有id这个属性的数量,相当于查数量
+                                        这个函数参数还可以是 *号,相当于将表中所有行都查出来,只要行中有值就算。
+                                        但是如果是 *号的话,太耗效率,因为每一列每一行都要判断
+
+                                    MIN(col)  返回指定列的最小值
+
+                                    MAX(col)  返回指定列的最大值
+
+                                    SUM(col)  返回指定列的所有值之和  
+
+                                     只有聚合函数才能将查询的属性放在一行。如: select AVG(xxx),MIN(xx) from `xxx`
+                            
+
+                                  字符: 
+                                    CONCAT(S1,S2,S3....)  将s1,s2.. 这个些属性的值连接成字符串,并返回
+
+                                    CONCAT_WS(sep,s1,s2,s3...)  将s1,s2..连接成字符串,并用sqp字符作为间隔
+
+                                    TRIM(str)  去除字符串首部和尾部的所有空格 
+
+                                    LTRIM(str) 去除字符串的开头空格
+
+                                    RTRIM(str) 去除字符串的尾部空格
+
+
+                                  日期: 
+                                     CURDATE() 和 CURRENT_DATE() 都是一样的,返回当前日期
+
+                                     CURTIME() 和 CURRENT_TIME() 都是一样的,返回当前时间
+   
+                                     TIMESTAMPDIFF(part,date1,date2) 
+                                     返回date1到date2之间相隔的part值,part是用于指定的相隔的年或月或日等
+                                     part值为: 
+                                          MICROSECOND
+                                          SECOND
+                                          MINUTE
+                                          HOUR 表示时
+                                          DAY  表示天
+                                          WEEK
+                                          MONTH
+                                          QUARTER
+                                          YEAR  表示年
+
+
+                             自定义函数: 这种是后端学的
+
+
+                          分组:  
+                            GROUP BY  属性 
+                            会将每一行的分组定义的属性相同的都为一组,如果分组中有多个属性就必须每一行里的分组定义的属性相同的才为一组
+ 
+                             子局:having 运行在select后面
+
+                               分组的运行顺序: 
+                                     from 
+                                     join on
+                                     where
+                                     group by
+                                     select
+                                     having
+                                     order by
+                                     limit
+
+
+
+
+                                                  
+                           分组后只能查分组的列和聚合列  
+
+
+
+                           子查询: 
+                             select * from (查询结果)
+                             相当于把 **查询结果** 当成一张表,然后在这个张表的基础上再进一步 select 查询
+
+
+                           CHAR_LENGTH(str)  得到字符串的长度(数量)
+        
+        
+         */
+    </script>
+</body>
+</html>

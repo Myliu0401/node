@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+             内置模块: 
+                OS模块: (操作系统的相关信息的模块)
+                   EOL属性   值为一行结束的分割符,不同系统结束的 结束分割符不一样。
+                   arch函数  返回电脑cpu的架构位, 如 x64 x32 等
+                   cpus函数  返回一个对象数组，包含所安装的每个 逻辑CPU/内核的信息：型号、速度（单位 MHz）、时间（一个包含 user、nice、sys、idle 和 irq 所使用 CPU/内核毫秒数的对象）(就是cpu的线程)
+                   freemem函数  返回操作系统空闲的内存量,单位是字节
+                   homedir函数  返回用户目录
+                   hostname函数   返回操作系统的主机名 
+                   tmpdir函数   返回操作系统的默认临时目录。
+                   ...
+
+                path模块:   (这个path模块里面的函数都不会检查参数路径是否正确或有没有,只做字符串处理)
+                   basename函数 
+                      可以传两个参数   第一个 路径'xxx/xxx/a.xx'  第二个为 后缀名 '.xxx'
+                      只有一个参数,会返回第一个参数的文件名
+                      有两个参数,会将第一个参数的文件名的后缀与第二个参数做匹配,匹配得对,就返回第一个参数的文件名不带后缀名
+                       匹配不上就返回第一个参数的文件名带后缀
+
+                   sep属性  值为分割符(不同操作系统分割符不同)
+                   
+                   delimiter属性  值为分割符(环境变量地址的分割符,不同系统分割符不同)
+
+                   dirname函数    参数 为路径'xxx/xxx/xx/x.xx', 返回路径中代表文件夹的部分
+
+                   extname函数   参数为路径'xxx/xxx/xx/x.xx',   返回路径中的文件后缀名
+
+                   join函数      会将参数拼接成一个路径(根据操作系统来拼接),并返回
+                                 会根据参数的意思来拼接,比如参数为 '../' 表示返回上级目录,会根据参数的意思
+                                 一顿操作后返回。
+
+                   normalize函数    参数路径'xxx/xxx/..' 会将参数路径规范化后并返回
+
+                   relative(from, to)   将参数匹配得出相对路径，from 到 to 的相对路径
+                   如：path.relative('/data/orandea/test/aaa', '/data/orandea/impl/bbb');
+                          // 返回: '../../impl/bbb'
+                          // bbb返回上级目录是impl,再返回上级目录为orandea,与第一个参数路径一样,就返回得出的相对路径
+
+                   resolve([from ...],to)   返回绝对路径
+                            会将参数从右往左处理
+                            如果to这个参数为相对路径,那么就拼接上前一个参数再判断是否为相对路径是就继续拼接并返回,如果为绝对路径那么就返回拼接后的绝对路径
+                            如果to不是相当路径,那么就直接返回 to这个参数
+                            如果只有一个参数,并且是绝对路径,那么直接返回,如果为相对路径那么拼接上命令行路径返回
+                            例子: 
+                              path.resolve('目录1', '目录2/目录3/', '../目录4/文件.gif');
+                              // 如果当前工作目录是在C盘 
+                              // 则返回 'C:/目录2/目录4/文件.gif'
+            
+                URL模块: 
+                   URL构造函数    参数为url地址。  会将参数解析为对象并返回,对象中包含url地址的信息
+                        返回的对象中里面的searchParams对象原型上的方法:   
+                                                     has('属性')  查看searchParams上有没有这个属性
+                                                     get('属性')  获取searchParams上的属性
+          
+                   format函数    参数为url对象
+                                会将参数对象拼接成url地址并返回,前提是参数必须是 url对象
+
+                   URLSearchParams构造函数   参数为search样式的字符串,请查看URL构造函数的返回值对象里的search属性
+                                            这个函数会返回URLSearchParams格式的对象,请查看URL构造函数的返回值对象里的searchParams属性
+                   parse函数    参数为url路径
+                        会将参数解析,并装进对象返回,该对象为url信息对象
+                        
+                  
+                util模块: 
+                    callbackify函数    参数为一个函数,这个函数返回Promise对象
+                          这个callbackify函数的功能是,将 async 异步函数（或者一个返回值为 Promise 的函数）转换成遵循异常优先的回调风格的函数
+                          会返回一个函数,这个函数的参数数最后一个为回调函数(err,value)=>{},与Promise不同的是
+                          回调函数第一个参数为错误,第二个为正常的值。
+                          也就是当callbackify函数的参数为失败状态时,会传它的数据给err,成功状态会传它的数据给value
+                           在回调函数中，第一个参数为拒绝的原因（如果 Promise 解决，则为 null），第二个参数则是解决的值
+            
+
+                    promiseify(有回调参数的函数)     参数为一个函数,这个函数最后一个参数必须是回调函数且这个回调是在异步中执行的
+                                                    这个回调函数执行传入两个参数,会使其推向不同状态
+                        阅读util2文件的源码
+                        
+
+                        promiseify函数返回一个Promise
+
+                    
+                    inherits函数   参数为构造函数  第一个为子类   第二个为父类   
+                       这个 inherits函数 会处理将子类的构造函数继承父类的 
+
+
+                    isDeepStrictEqual函数    参数为属性   
+                        这个函数的功能是对两个参数进行 深度 的比较 
+                        如: 
+                         obj1 = {
+                             a:123,
+                             b:{
+                                 c:'1'
+                             }
+                         }
+                        obj1 = {
+                             a:123,
+                             b:{
+                                 c:'1'
+                             }
+                         }
+                        
+                        会比较这两个对象 深度 是不是一样,并且属性值是不是同种类型,返回布尔值
+             */
+            
+    </script>
+</body>
+</html>

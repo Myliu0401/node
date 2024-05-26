@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                    http-proxy-middleware库: 
+                            这个库是专门用来处理代理的。
+                      
+                    安装: 
+                      npm install http-proxy-middleware
+
+                    使用: 
+                      这个库导出一个对象,对象里面的属性: 
+                           createProxyMiddleware(context,配置对象)函数     这个函数会返回一个中间件函数,这个中间件函数会处理代理。
+                              context参数  为路径 如: '/api' 表示只有请求的路径是以 /api 开头的才会交给代理进行处理。
+                              配置对象: 
+                                 target:'url' 如: 'http://www.baidu.com:端口号'  表示代理到这个服务器
+                                 pathRewrite: 对象或函数  表示应式规则
+                                     对象形式 { 
+                                        '^/xxx/xxx':'路径'   表示请求的路径如果是 /xxx/xxx , 就是代理的请求路径变为这个属性的值
+                                        '^/xxxx/xxx':'路径'
+                                     }
+                                     函数形式 function(path,req){  会将返回的值作为代理的路径
+                                         return 路径
+                                     }
+    
+                           changeOrigin:布尔  表示是否将请求过来的请求头的host属性值改为 代理的地址,也就是协议域名端口号
+    
+                           其他属性请看文档
+                */
+  </script>
+</body>
+
+</html>

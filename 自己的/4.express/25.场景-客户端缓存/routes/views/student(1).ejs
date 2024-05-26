@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>百度欢迎你</h1>
+    <p>随机数：<%= numder %></p>
+    <p>学生总数:<%= total %> 第<%= page %>页 每页<%= limit %>数据</p>
+    <ul>
+        <% datas.forEach(el => { %>
+        <li><%= el.Xname %> </li>
+        <% }) %>
+    </ul>
+    <a href="/naisi?page=<%= +page-1 %>">上一页</a>
+    <a href="/naisi?page=<%= +page+1 %>">下一页</a>
+</body>
+
+</html>

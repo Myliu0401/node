@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function m(){
+            return new Promise((reolve,reject)=>{
+                setTimeout(()=>{
+                    reolve(1)
+                },5000)
+            })
+        }
+        async function l(){
+            console.log('---')
+            await m();
+            return 123
+        }
+        const lp = l()
+        console.log(lp,123)
+        lp.then((data)=>{
+            console.log(data)
+        });
+
+
+        /* 
+            只要前面带有 async关键字 的函数,执行后会立马返回一个Promise对象
+            如果函数里面有 await异步代码,async关键字返回的Promise对象的后续函数不会立即执行
+            必须等到整个async关键字函数执行完后才会执行返回的Promsie对象的后续处理函数,
+            相当于被异步代码卡住了,必须等到异步到吗全都执行完才会执行返回的Promise对象的后续处理函数
+
+            因为async关键字特殊 所以执行后就会返回Promsie对象
+
+            async关键字函数里的 返回值相当于将它返回的Promise对象推向已决
+        
+        
+        */
+     
+    </script>
+</body>
+</html>

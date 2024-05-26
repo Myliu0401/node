@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+                    表中记录的增删改查: 
+                                     增: CREATE
+                                   增加语句(增加一条记录)
+                                     insert into `库`.`表`(`属性1`,`属性2`。。。。。)   id是自增的话可以不用填
+                                     VALUES('属性值','属性值2'.....)  外键必须只能填与对应表的主键里的
+                                             default表示使用默认值,不写也表示使用默认值
+                                     命令结束必须添加分号,表示结束
+             
+                                     如果使用多条语句: 用逗号分隔
+                                                 insert into `库`.`表`(`属性1`,`属性2`。。。。。)
+                                                 VALUES('属性值','属性值2'.....),
+                                                 ('属性值','属性值2'.....),
+                                                 ('属性值','属性值2'.....);
+                                         表示使用多条语句  
+
+                             
+                                      改: UPDATE 
+                                    修改语句(修改记录中的某个属性值)
+                                    update `库`.`表` set `要修改的属性`='修改后的值'
+                                    where  主键=主键的值;
+
+                                      where表示条件,where后面表示带有这个条件的记录。
+                                      没有带条件会把记录中所有这个属性都改了。  
+
+
+                                      删: DELETE
+                                    删除语句(删除记录中的某条记录)
+                                    delete from `库`.`表`
+                                    where `主键`='主键的值'
+                                    必须加上where条件,不然全部会被删除
+
+                        
+  
+                           
+        
+        
+        
+        
+        
+         */
+    </script>
+</body>
+</html>

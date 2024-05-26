@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+            socket(特殊文件)
+                1.客户端连接服务器(TCP/IP),三次握手,建立连接通道
+                2.客户端和服务器通过socket接口发送消息和接收消息,任何一端在任何时候,都可以向另一端发送
+                  任何消息。
+                3.有一端断开,通道销毁
+                浏览器没有直接提供socket接口,是直接使用http协议的,让http自己来管理socket。
+
+           
+            http(建立在tcp/ip协议上的)
+              1.客户端连接服务器(TCP/IP),三次握手,建立连接通道
+              2.客户端发送一个http格式的消息,服务器响应http格式消息
+              3.客户端或服务器断开,通道销毁
+
+
+            实时性的问题：
+                  如果服务器数据发生改变客户端必须展示更新数据,但客户端又不知道服务器的数据发生变动。
+              以前的解决办法: 
+                 1.轮询  客户端每隔1秒就向服务器发送请求
+                 2.长连接   与服务器链接通道,客户端发送请求等待服务器变动数据就发回响应。
+                 但是这两种方法都有弊端。轮询太耗服务器性能, 长连接程序不好设计。
+               
+
+            websoket协议(建立上socket上的)   这个协议是专门解决实时的问题的。 
+               1.客户端链接服务器(TCP/IP),三次握手,建立通道
+               2.客户端发送一个http格式的消息(特殊格式),服务器也响应一个http格式的消息(特殊格式),称之为http握手。
+               3.双方自由通信,通信格式按照websocket要求进行。如果服务端没有发回响应,websoket协议客户端不会一直等待,也不会立即断开链接。
+               4.双方有一方断开.通道销毁。
+
+
+               在浏览器中有提供websocket协议的接口
+                 在全局中有一个 WebSocket构造函数,这个构造函数传两个参数 第一个为url地址,第二个为配置对象,为可传可不传
+                 第一个参数的协议必须是 ws开头 因为是websocket协议
+                 这个构造函数会返回一个 WebSocket对象。
+                 当,创建 WebSocket对象 时WebSocket构造函数就会自动进行http握手。
+                 
+                 然后怎样处理都在这个WebSocket对象中的api,请看文档。
+
+               
+               因为websoket协议通信格式要按照websocket来,所以服务器接收到websoket协议的客户端的请求体,是被websoket处理过的
+               后续的响应必须按照websocket的要求进行。
+
+              http握手:
+                  发送请求的http特殊格式,这个特殊格式是只有请求头没有请求体。
+                  请求头中的重要属性: 
+                      Connection:Upgrade  表示模式升级
+                      Upgrade:websocket   升级到websocket模式
+                  当客户端的onopen事件触发时,表明http握手完毕
+      
+                  服务器发回http握手的响应: (http特殊的格式)
+                    响应头里的重要属性
+                     HTTP/1.1 101 Switching Protocols   表示变跟协议
+                     Connection:Upgrade  表示模式升级
+                     Upgrade:websocket   升级到websocket模式
+                     Sec-WebSocket-Accept: [key]  这个key值就必须特殊处理的,为 Buffer类型
+                     
+                     对key值的特殊处理: 
+                          在node中进行处理:
+                           const crypto = require("crypto");  //导入的对象里面有算法函数
+                           const hash = crypto.createHash("sha1"); //返回一个对象这个对象里的函数会对参数进行sha1算法来加密
+                           hash.update(requestKey + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"); //第一个参数为http握手时的请求头里的 Sec-WebSocket-Key属性值,第二个参数为uuid                        
+                           const key = hash.digest("base64");  //然后进行base64编码
+
+                      
+      
+      
+      */
+  </script>
+</body>
+
+</html>

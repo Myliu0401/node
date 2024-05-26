@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                     
+                  概述: 
+                     jwt 只是一种规范,一个json格式的互联网令牌。
+                     jwt只是一个令牌格式而已,可以将这个令牌存到cookie,也可以存储到localstorage,没有任何限制。
+                     
+
+                     同样,对于传输,可以使用任何传输方式来传输jwt,一般都用,消息头来传输jwt。
+
+                     所以可以看出,jwt可以出现在响应的任何一个地方,客户端和服务器自行约定。
+                     因为是自行约定所以必须手动处理,不像浏览器的cookie,浏览器自行来处理。
+
+                     所以当客户端拿到令牌后,要做的就是存储它。
+                       可以存储到任何位置。
+                       当后续请求时,只需要将它作为请求的一部分发送动服务器即可。
+
+                     虽然jwt没有明确要求应该如何附带到请求中,但通常我们会使用如下格式: 
+                        在消息头中添加属性: 
+                               authorization: bearer jwt令牌
+
+
+                  jwt令牌的组成: 
+                       header:令牌头部,记录整个令牌的类型和加密算法
+                       payload:令牌负荷,记录主体信息,比如: 要保存的用户信息就可以放到这里
+                       signature:令牌密钥,安照头部固定的加密算法对整个令牌进行加密,该签名的作用是:保证令牌不被伪造和篡改
+                         
+                          它们组合而成的完整格式是：header.payload.signature
+
+                          比如，一个完整的jwt令牌如下：
+                          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1ODc1NDgyMTV9.BCwUy3jnUQ_E6TqCayc7rCHkx-vxxdagUwPOWqwYCFc
+
+                     
+                      header: 
+                          它是令牌头部,记录了整个令牌的类型和加密算法。
+                          是一个格式为json对象: 
+                          {
+                            "alg":"那种算法" ,
+                            "typ":"JWT" 为jwt类型 
+                          }
+                            alg: 是 signature使用加密时,用的算法
+                                 'HS256' 一种对称加密算法
+                                 'RS256' 一种非对称加密算法
+                            typ: 整个令牌的类型为JWT
+
+                          浏览器提供了btoa函数,可以对json对象进行加密: 
+                             window.btoa(JSON.stringify({
+                               alg:"HS256",
+                               typ:"JWT"
+                             }))
+                          同时有atob函数进行解密: 
+                              window.atob(btoa加密后的数据)
+
+                          但是,node没有提供函数,所以只能使用第三方库: atob 和 bota
+      
+                      
+                      payload
+                         这部分是jwt的主体信息,仍然是一个json对象,可以包含以下内容: 
+                         {
+                            "ss"："发行者",
+                          	"iat"："发布时间",
+                          	"exp"："到期时间",
+                          	"sub"："主题",
+                          	"aud"："听众",
+                          	"nbf"："在此之前不可用",
+                            "jti"："JWT ID"
+                          }
+                         因为jwt只是一种规范而已,后续的验证和存储发送等全部要靠手动,所以这些属性可以写也可以不写,也可以自定义。
+                         同样要将 payload部分加密变成数据,同样用btoa加密,atob解密。
+
+                      
+                      signature
+                          这一部分是jwt的密钥,由于密钥的存在,保证了整个jwt不被篡改
+                          这一部分生成加密后的数据的操作是: 
+                             按照 header对象里的alg属性的值
+                             如: HS256('前面加密后的数据如:header.payload','密钥')
+                             最后生成一个signature数据。
+                             最终将三部分数据加在一起,就得到了一个完整的jwt: header.payload.signature
+                          
+                          由于签名使用的秘钥保存在服务器，这样一来，客户端就无法伪造出签名，因为它拿不到秘钥。
+                          因为客户端不知道密钥,就算弄个假的签名,服务端,用解密后再用密钥加密判断,进行匹配。
+
+
+                     服务端判断是否jwt被篡改: 
+                       传入的header.传入的payload.传入的signature
+                       新的signature = header中的加密算法(传入的header.传入的payload, 秘钥)
+                       验证：新的signature == 传入的signature
+
+                    当令牌验证为没有被篡改后，服务器可以进行其他验证：比如是否过期、听众是否满足要求等等，这些就视情况而定了
+                    注意：这些验证都需要服务器手动完成，没有哪个服务器会给你进行自动验证,当然,可以借助第三方库来完成这些操作
+                          
+                        
+                    详情看课件
+
+                    
+
+
+                        
+    */
+  </script>
+</body>
+
+</html>

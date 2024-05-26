@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+                      日志记录的库: log4js 
+                                这个库专门用于做日志记录。
+
+                      安装: 
+                        npm install log4js
+                        
+                      使用: 
+                         const log4 = require('log4js');
+                         这个库导出一个 log4对象
+                         log4对象里的属性: 
+                           configure(配置对象)
+                                 配置对象里的属性: 
+                                     appenders对象: //这个对象是配置日志出口的
+                                        出口属性:{ //为自定义
+                                                 
+                                            type:'file' //表示写入文件     //type的值不同表示不同的含义比如传送等等, 这个对象的其他属性也不同含义,没有配置这个默认为输出到控制台,查看文档
+                                                 'dateFile' 这个值跟file一样,就是多了,当设置文件备份时,备份的文件后缀名会以当前的时间作为后缀
+                                           
+                                            filename:写入文件的路径        //如果type值不是file,也就不是写入文件,那么这个出口属性对象里就不用配置filename属性,但必须配置其它属性, 查看文档
+                                            maxLogSize:多少字节    //如果写入的文件大于这个容量,会将其备份,然后再进行写入 
+                                            layout:{  //这个属性表示日志格式布局
+                                                type:'pattern'  //这个值表示自定义布局
+                                                pattern:'什么样的格式'  //这个pattern属性的值写占位符
+                                            }
+                                            daysToKeep- integer（默认值为0）-如果此值大于零，则日志滚动期间将删除超过该天数的文件,
+                                                                相当于只保留一个超过该天数的备份文件。
+
+                                            体它配置属性请查看文档
+                                        }
+                                        default:{ //表示默认出口 ---  这个是必须配置的
+                                           type:'xxx',                    跟上面一样
+                                           filename:出口的路径             跟上面一样
+                                        }
+                                     
+                                         
+                                     categories对象:
+                                          日志类型:{ //类型为自定义
+                                             appenders:['出口属性'], //多个属性就会将日志进入写入多个出口文件,表示该类型使用'出口属性'的配置写入日志
+                                             level:'日志级别'   ---- 默认为最高级别
+                                          }
+                                          default:{ //默认的日志类型 --- 这个是必须配置的
+                                              appenders:['出口属性'], //多个属性就会将日志进入写入多个出口文件
+                                              level:'日志级别'
+                                                 }
+                                                     
+  
+
+
+                           getLogger(日志类型)       这个函数会返回一个 logger对象 这个对象相当于一本什么类型日志书,没传参数表示默认类型
+                              logger对象里的属性: 
+                                          level:'日志级别'     默认为off,表示最高级别,如果有日志类型,那么这个属性可以不用配置      级别查看课件的图片
+                                          级别函数('内容')     如果这个logger对象没有日志类型,也就是调用getlogger函数时没有传参,返回的logger对象,默认是打印出来
+                                                              如果getLogger函数有传日志类型,就根据日志类型配置的出口属性来完成。
+                             只有调用的级别函数大于或等于日志级别,才会执行日志类型的配置或打印出来 
+
+                            
+                           shutdown函数      执行这个函数时 log4js会判断日志是否记录完毕,如果未进入完毕会继续记录。
+                           
+
+
+
+                           
+                           占位符: 
+                             %r 时间为toLocaleTimeString格式
+                             %p 日志级别
+                             %c 日志类别
+                             %h 主机名
+                             %m 记录数据
+                             %d日期，格式-默认是ISO8601，格式选项有：ISO8601，ISO8601_WITH_TZ_OFFSET，ABSOLUTE，DATE，或与兼容的任何字符串日期格式库。例如%d{DATE}，%d{yyyy/MM/dd-hh.mm.ss}
+                             %%％-用于当您希望%在输出中使用文字时
+                             %n 新队
+                             %z进程ID（来自process.pid）
+                             %f文件名的完整路径（enableCallStack: true在类别上必填，请参阅配置对象）
+                             %f{depth}路径的深度让您选择仅具有文件名（%f{1}）或选定数目的目录
+                             %l行号（enableCallStack: true在类别上需要，请参阅配置对象）
+                             %o列位置（需要enableCallStack: true分类，请参阅配置对象）
+                             %s调用堆栈（需要enableCallStack: true分类，请参阅配置对象）
+                             %x{<tokenname>}将动态令牌添加到您的日志中。令牌是在tokens参数中指定的。
+                             %X{<tokenname>}从Logger上下文中添加值。令牌是上下文值的键。
+                             %[启动一个彩色块（颜色将从日志级别获取，类似于colouredLayout）
+                             %] 结束一个彩色块
+
+                          
+                          log4js的简介: 查看文档的 Home
+                          log4js里的api: 查看文档的 API
+                          日志的布局: 查看文档的 Layouts
+                          日志的出口对象的 tpye值,相当于以什么形式来出口: 查看文档的 Appenders
+
+           
+
+        
+        
+        
+        
+        
+        */
+    </script>
+</body>
+
+</html>

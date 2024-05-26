@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+                  数据验证的位置: 
+                            前端(客户端): 为了用户体验
+                            路由层:验证接口格式是否正常
+                            服务层:保证业务完整性
+                            数据库验证:保证数据完整性
+                            
+                  
+                  validate.js库: 这个库是专门用来验证数据的,相当于这个库封装了验证规则
+                       
+                      安装: 
+                         npm install validate.js
+
+                      导入: 
+                         cosnt validate = require('vaidate.js')
+                         这个库导出一个对象。
+                        对象里的属性:
+                              同步函数:
+                               validate(数据对象,验证规则对象)
+                                               验证规则对象里的属性: 
+                                                        数据对象里要验证的属性:{
+                                                            //这里面写验证规则
+                                                              presence:true 表示启用这个 presence 验证规则,会对 数据对象里的对应属性 用这个presence规则来验证
+                    
+                                                        }    
+
+                               这个 validate 函数如果验证通过那么会返回unedfined,验证不同过会返回一个对象,对象里记录了那个属性验证不通过的信息                         
+                    
+                              异步函数: 
+                              async(数据对象,验证规则对象)
+                               这个方法如果验证通过那么会返回unedfined,验证不同过会报错抛出一个对象,对象里记录了那个属性验证不通过的信息
+                         
+
+                        验证规则: 
+                            presence:值为 true 表示属性不能为空或没有(也就是不能为null或undefined)
+                                     值为对象: 
+                                         allowEmpty:false  表示禁止验证的属性的值为 空对象、空数组、空字符串、空白字符串等等
+                                         message:'xxxxx'   表示验证不通过时,返回的对象里的对应属性的消息
+ 
+                            type: 值为  '类型'  表示验证的属性只能是这个类型
+                                  值为对象: 
+                                      message:'xxxxx'   表示验证不通过时,返回的对象里的对应属性的消息
+                                      type:'类型'
+
+                            length:值为 数字   表示验证的属性只能这个长度
+                                   值为对象:
+                                       minimum: 最小长度  
+                                       maximum: 最大长度
+                                       tooShort: 如果错误显示的消失体
+
+                            datetime:值为  true   表示验证的属性只允许日期,不允许日期时间。 如: '1999-12-12'
+                                     值为对象: 
+                                        earliest: 最早时间,  表示最早时间不能早于这个时间
+                                        latest: 最晚时间,    表示最晚时间不能晚于这个时间
+                                        dateOnly:true  只允许日期部分
+                                        message: '错误的消息' 
+                               因为时间格式的多样性,所以这个库没办法将验证的属性与 earliest和latest 进行对比
+                               所以需要设置两个函数用来处理 验证的属性。
+                                  在导入的validate对象里有一个方法extend(要处理函数规则类型,配置对象)
+                                    在这个导入的validate对象里的validators对象中有很多规则类型
+                                    datetime规则类型 在 validate.validators.datetime 中。
+
+                                    配置对象: 
+                                           parse(value,options)   当验证datetime规则时会执行这个函数
+                                          validate库会根据datetime规则的值来判断执行几次,如果datetime规则的值是一个对象且
+                                          里面有 earliest和latest属性 则执行三次。 
+                                          第一次执行时参数:value为验证数据的值,options为datetime规则的值
+                                          第二次执行时参数:value为datetime规则对象里的earliest属性,options为为datetime规则的值
+                                          第三次执行时参数:value为datetime规则对象里的latest属性,options为为datetime规则的值
+                                            这个函数必须将value值转为时间戳返回,如果无法转换则必须返回NaN
+
+                                           format(value,options)
+                                          validate库会对parse函数的执行后得到的时间戳进行对比,如果条件满足则不执行这个函数(验证数据的时间戳小于latest的时间戳大于earliest的时间戳),
+                                          如果条件不满足则执行两次。
+                                           第一次
+                                            验证数据的时间戳小于earliest的时间戳则 参数value为earliest的时间戳
+                                            验证数据的时间戳大于latest的时间戳则 参数value为latest的时间戳
+                                            参数options为datetime规则的值
+                                           第二次
+                                            参数value为验证数据的时间戳,参数options为datetime规则的值 
+                                           这个函数要返回友好的时间格式,因为验证失败时显示错误消息,使用的显示字符串,将第一次执行的返回值。
+
+
+                            format:值为 正则表达式  自己写正则表达式
+                                   值为对象: 
+                                        pattern:自己写的正则表达式
+                                        message:错误信息
+                                        
+                            numericality:值为 类型   会根据这个类型来验证
+                                         值为对象: 
+                                             可以配置很多约束,查看文档
+                                             onlyInteger:true 必须使用整数
+                                             strict:布尔  是否启用严格匹配
+
+
+                            其他规则查看文档
+
+                                             
+                            自定义规则: 
+                               在这个导入的validate对象里的validators对象里添加一个规则。
+                               规则名自定义,值为函数,validate库在执行自定义规则函数时会传一个函数进去。
+                               参数为: 验证数据的值。
+
+                               这个自定义规则函数返回 unedfinde 表示验证通过,返回其他表示验证失败,且返回的信息会被作为错误信息
+                               
+                               数据对象里要验证的属性:{
+                                                            //这里面写验证规则
+                                                              presence:true 表示启用这个 presence 验证规则,会对 数据对象里的对应属性 用这个presence规则来验证
+                            
+                                                              自定义规则属性:true 表示启用自定义规则
+                                                        } 
+
+
+                            
+                                          
+
+                                       
+
+                     
+        
+        
+        
+        
+        */
+    </script>
+</body>
+
+</html>

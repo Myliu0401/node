@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                   二维码的概念:  二维码其实就是一个字符串。       
+                          矩阵点: 就是二维码上的小点。
+                              通常是白色或黑色的小点, 深色表示1   白色表示0
+                     
+                          位置探测组: 三个位于角落的嵌套矩形,这三个矩形用定位二维码图片的方向。
+
+                          Version: 1~40的数字。
+                                   1表示21*21 就是横向和纵向有21个矩阵点, 1表示最小
+                                   4表示177*177, 20表示最大
+
+                          mode:表示字符编码方式
+                             Numeric
+                             Alphanumeric
+                             Kanji
+                             Byte
+
+                          纠错等级: L 、M 、Q 、H 纠错等级越高,能够表达不同的字符量越少。
+                                   因为越高冗余的信息越多,所以能够表达不同的信息越少。
+
+
+                   qrcode库:这个库是专门用来生成二位码的。
+                        客户端和服务端都可以用这个库。但是在客户端用,要自己打包。
+
+                   安装: 
+                     npm isntall qrcode
+                   
+                   使用: 
+                     这个库导出一个 QRCode对象。 
+                        这个对象里的属性: 
+                             有专门在客户端生成二维码的api,但是要打包后才有。
+
+                             下面这个是在服务器用生成二维码的api: 
+                                        toFile(path,text,options,cb)      会生成一张二维码图片
+                                          path:二维码保存的路径
+                                          text:表示进行编码的文本
+                                          options:配置对象
+                                               type: 格式 如:png,jpg等
+                                               color:{
+                                                   dark:表示深色
+                                                   light:表示浅色
+                                               }
+                                               其他属性看文档
+
+                                          cd:回调函数,完成时会调用这个函数,并且传一个参数err,没错误这个参数为null,有错误就为错误信息
+                                          
+                                        toDataURL(text,options,cd(err,url))
+                                          text:表要编码的文本
+                                          options:配置对象
+                                            配置属性参看文档
+
+                                          cb:回调函数   err参数为错误信息,没错误为null  url参数为编码后生成的 dataurl地址
+
+                                        其他属性请看文档
+
+    */
+  </script>
+</body>
+
+</html>

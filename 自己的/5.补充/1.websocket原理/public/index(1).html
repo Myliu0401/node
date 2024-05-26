@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>发送数据到websocket协议服务器</button>
+    <script>
+        //创建websocket协议客户端
+        const websocket = new WebSocket('ws://localhost:5008');
+
+        //连接成功时触发。
+        websocket.onopen = function (event) {
+            console.log('链接成功')
+        };
+
+        //链接断开时触发
+        websocket.onclose = function (event) {
+            console.log('链接断开')
+        };
+
+        //连接因错误而关闭时触发
+        websocket.onerror = function (event) {
+            console.log('发生错误')
+        };
+
+        //收到数据时触发,也就是收到响应时触发
+        websocket.onmessage = function (event) {
+            console.log(event.data,'===')
+        };
+
+      document.querySelector('button').onclick = function (){
+          websocket.send('123')
+      }
+    </script>
+</body>
+
+</html>

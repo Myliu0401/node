@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                  jsonwebtoken库: 
+                            这个个专门用来处理jwt的。
+
+                  安装: 
+                     npm install jsonwebtoken
+
+                  使用: 
+                     这个库导出一个 jwt 对象,操作对象里面的api,进行生成jwt和管理jwt等等
+
+                     jwt对象里面的属性: 
+                              sign(payload,密钥,配置对象)  这个函数里面自动创建了 jwt规范的header和signature,并进行了后续的加密处理。
+                                  payload对象: 配置自定义属性
+                                           自定义的属性
+
+                                  配置对象:配置jwt规范payload里面默认的属性
+                                       algorithm:默认为 HS256 如果有传会将这个赋给jwt规范的heade对象里面的alg。
+                                       expiresIn:表示过少时间内过期。
+                                       
+                                  sign函数最终会返回一个完整的jwt规范格式字符串
+
+     
+                              decode(jwt令牌)  这个函数会对象参数进行解密并返回。
+
+                              verify(jwt令牌,密钥)  这个函数会在内部进行解密后再加密再进行匹配验证等。
+                                                   如果验证失败则报错,错误信息为验证失败的信息。
+                                                   如果验证正确则返回解密后的信息。
+
+                        
+    */
+  </script>
+</body>
+
+</html>

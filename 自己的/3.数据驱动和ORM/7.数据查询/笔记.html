@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+                 sequelize框架
+                    **模型**中的数据查询:
+                           查询单个数据: findOne(配置对象)     配置对象里的属性:  
+                                                                where:{
+                                                                    查询的属性:对应的值
+                                                                }
+                             会根据查询的条件来查询,返回查询到的记录的实例,如果没有就返回null
+
+                           
+                           按照主键查询单个数据: findByPk(id主键值)    
+                              会返回查询到的记录实例,查询不到就返回Null
+
+                           
+                           查询多个数据: findAll(配置对象)
+                                  这个函数的参数可传可不传      不传参数表示查询所有记录
+                                  传参数配置对象               就按照参数的条件查询  
+                                  配置对象里的条件,查询文档:https://github.com/demopark/sequelize-docs-Zh-CN/blob/master/core-concepts/model-querying-basics.md
+                                  配置对象里的属性:{
+                                       where:{ //为查询条件,可写可不写
+                                          
+                                       },
+
+                                       附加条件,可写可不写
+                                    其中限制分页: 会根据查询条件查询到所有数据后,在用附加条件进行过滤得到记录实例,装在返回的数组里
+                                            offset:表示跳过多少条开始取
+                                            limit:表示取多少条
+                                  }
+                                  
+                             返回一个数组,这个数组里的每一项就是查询到的记录实例  
+
+                           
+                           查询表里记录的总数: count(配置对象)  
+                                        配置对象可传可不传, 不传    表示查询所有的总数
+                                                           传     根据查询条件查到的总数 
+                                            配置对象里的条件查看文档
+
+
+                           查询多个数据: findAndCountAll(配置对象)    这个方法差不多是findAll和count的结合
+                                        配置对象: 
+                                              where:{ 为查询条件
+
+                                              }
+                                            附加条件
+                                              offset:表示跳过多少条开始取
+                                              limit:表示取多少条
+                                                             
+                                     这个函数返回一个对象,对象里的属性: 
+                                                             count:为表里的所有记录总数
+                                                             rows:为数组,数组里的每一项为查询到的记录实例 
+
+
+
+                           参数配置对象里的属性:
+                                        where: {}  表示查询的条件
+                                        attributes:['属性1','属性2'...]   表示只查询这些属性,相当于只选择某些特定属性。
+                                        include:[表]      查询时就会关联到这张表,前提是得先设置好表与表的关系
+                                        ....
+
+                               
+        
+        
+        
+        */
+    </script>
+</body>
+
+</html>

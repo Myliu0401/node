@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input class="file" type="file">
+    <button onclick="aaa()">123</button>
+    <script>
+        const file = document.querySelector('.file');
+
+        function aaa() {
+            const fl = new FormData();
+            fl.append('a',file.files[0])
+            fetch('https://www.baidu.com',{
+                body:fl,
+                method:'POST'
+            });
+            console.log(file.files[0],fl)
+        }
+
+    </script>
+</body>
+
+</html>

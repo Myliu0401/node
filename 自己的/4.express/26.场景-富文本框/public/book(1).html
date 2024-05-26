@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>添加一本书籍</h1>
+
+    <p>书名:<input type="text" id="name" name="" value=""></p>
+
+    <!-- 富文本框 -->
+    <div id="Text"></div>
+
+    <button id="button">提交</button>
+    <script src="https://unpkg.com/wangeditor/dist/wangEditor.min.js"></script>
+    <script>
+        function $(Mymi) {
+            return document.querySelector(Mymi);
+        };
+
+        console.log(typeof (new window.wangEditor($('#Text'))));
+
+        const E = window.wangEditor;
+        const editor = new E('#Text'); //这个参数元素作为富文本框
+
+        //配置上传图片时的服务器路由
+        editor.config.uploadImgServer = '/api/File';
+
+        //配置上传图片时的报文格式的文件名
+        editor.config.uploadFileName = 'naisi';
+
+        //上传图片时服务器返回结果时触发
+        // editor.config.uploadImgHooks = {
+        //     customInsert: function (insertImgFn, result) {
+        //         // result 即服务端返回的数据
+        //         console.log(result)
+        //         // insertImgFn 可把图片插入到编辑器，传入图片 src ，执行函数即可
+        //         insertImgFn(result)
+        //     }
+        // };
+
+        editor.config.uploadImgMaxLength = 5; //一次最多上传 5 个图片,默认为100张,这个配置只能与自定义上传图片进行配合
+
+
+        //自定义上传图片
+        editor.config.customUploadImg = function (resultFiles, insertImgFn) {
+            // resultFiles 是 input 中选中的文件列表
+            // insertImgFn 是获取图片 url 后，插入到编辑器的方法
+
+            // 上传图片，返回结果，将图片插入到编辑器中
+            console.log(resultFiles)
+        }
+
+        //editor.config.showLinkImg = false //可隐藏插入网络图片的功能
+        editor.create(); //表示创建一个富文本框
+        //  editor.txt.append('<p>奈斯</p>'); //表示追加这些内容在富文本框中,参数为html字符串
+        //  editor.txt.text()//获取富文本框的纯文本 
+        //  editor.txt.html()//获取富文本框的html字符串
+
+        $('#button').onclick = async function () {
+            const text = $('#name').value;
+            const html1 = editor.txt.html();
+            await fetch('http://localhost:8848/book', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: text,
+                    Stext: html1,
+                    Sname: 'Myliu',
+                    Schubandate: Date.now(),
+                    Szuozi: 'yulian'
+                })
+            }).then((data) => {
+                return data.json()
+            }).then((data) => {
+                console.log(data)
+            });
+        }
+    </script>
+</body>
+
+</html>

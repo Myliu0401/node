@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+                  XSS跨站脚本攻击,就是正常的用户在正常的情况下运行了不正常的脚本
+                     
+                   xss攻击: 
+                      存储型xss
+                       1.恶意用户提交了恶意内容到服务器
+                       2.服务器没有识别,保存了恶意内容到数据库
+                       3.正常用户访问服务器
+                       3.服务器在不知情的情况下,给与了之前的恶意内容,让正常用户遇到攻击
+                    防御存储型xss: 
+                       防止将恶意内容保存到数据库
+
+                
+                   反射型xss
+                       1.恶意用户分享了一个正常网站的链接,链接中带有恶意内容
+                       2.正常用户点击了该链接
+                       3.服务器在不知情的情况,把链接的恶意内容读取出来,放进页面中,让正常用户遇到攻击
+                       反射型xss最好再看下视频
+                     
+
+
+               
+                    为了防止浏览器会将 < 和 > 解析为标签,如果不想让浏览器将这个两个解析为标签,可以使用 
+                     &lt代替<   &gt代替>   浏览器就不会将这个两个尖括号解析为标签了,会解析成正常的字符串。
+
+
+
+                  xss库的文档链接 https://github.com/leizongmin/js-xss/blob/master/README.zh.md
+                       
+                  这个xss库是专门用来处理存储型xss攻击
+                  安装: 
+                    npm install xss
+
+                  导出一个函数,详细使用请看文档
+        
+        
+        */
+    </script>
+</body>
+</html>

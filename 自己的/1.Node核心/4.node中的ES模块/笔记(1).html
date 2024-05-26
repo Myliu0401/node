@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+       /* 
+               node中的ES模块化现在仍然处于试验阶段
+
+
+               在node环境中,模块要么使用commonjs,要么使用ES,不能混着使用
+               在node环境中使用:
+                  commonjs模块的使用  跟以前一样
+
+                  ES模块,则需要将文件后缀名改为 .mjs node环境中就会将这个文件解析为ES模块。
+                  也可以在"最近"的package.json文件中添加 type属性,值为module,这样node环境中就会
+                  将有这个package.json文件,"最近"的js文件都解析成ES模块
+                  当使用ES模块化运行时,必须在package.json文件中添加 experimental-modules标记
+                  在package.json文件里的seripts属性中添加
+                      如: "start": "node --experimental-modules index.mjs"
+                           当执行入口文件时,命令变成 npm start
+
+
+
+       
+        
+                因为同样的V8引擎将js代码编译成机器码,但执行是在不同环境中来处理的,浏览器环境有ES模块正式规范
+                而node环境中ES模块没有正式。
+                   node环境中代码都会被放进函数中来执行,而ES模块导入代码必须放置到所有代码之前,所以node和es的模块之间冲突等。
+                   v8引擎执行js是否为模块的代码有不同处理等等。
+       */
+ 
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+                      查询: 
+                         表单基本查询: 
+                               select 属性名,属性名,..... from `表`  
+                                 ---表示在哪个表中查询这些属性,会把这个表中这些属性和值都查出来
+
+                                    别名: as
+                                      select 属性名 as 'xxx' from `表`
+                                        ---查询出来后,会将属性名改成 as 后面定的    
+                                    
+                                    *: 表示查询所有列
+                                      select * from `表`
+                                         ---表示查询这个表中的所有列(也就是所有属性)
+
+                                    case: 表示进行特殊处理
+                                      select id, case `name` when 1 then '男' else '女' end as xxx
+                                      ---case表示对name这个属性进行特殊处理 when表示如果值 1 then表示那么改为 ‘男’ else表示否则改为 ‘女’ end表示特殊处理结束。
+                                              但是,进行将某个属性特殊处理,属性名会被改了,所以用 as表示别名(重命名)
+                                        
+                                        可以直接在命令后面直接写逻辑进行查询
+                                        如: 
+                                          SELECT
+                                            	id,
+                                            	`name`, CASE
+                                             		ismale 
+                                             		WHEN 1 THEN
+                                             		'男' ELSE '女' 
+                                             	END AS '性别',
+                                            CASE
+                                            		WHEN salary >= 10000 THEN
+                                            		'高' 
+                                            		WHEN salary >= 5000 THEN
+                                            		'中' ELSE '低' 
+                                            	END AS '工资的高低' ,
+                                            	salary
+                                            FROM
+                                            	`naisi`.`employee`;
+
+                                    distinct: 表示查没有相同的
+                                        这个命令只能写在  SELECT后面, 这个distinct前面不能写属性,属性只能写在它后面,表示后面全部查去重的,也就是没有相同的
+                                         如: select distinct employee.location from `naisi`.employee;
+
+
+                                    where:表示进行筛选
+                                           条件: 
+                                                =  表示是否等于
+                                                in (值1,值2)  表示从值1或者值2 
+                                                is null       表示没有填值 (is表示是否为)
+                                                is not null   表示筛选值不是null的 (is not 表示是否不为)
+                                                > < >= <=
+                                                between xxx and xxx    表示在和什么之间 (between表示之间)
+                                                like   表示模糊查询。
+                                                (like后面跟模糊表达式 如: '%刘%' %表示任意字符 只要有刘字后面或前后带有任意字符就行。 刘_ 表示只有两个字且第一个字必须为刘)          
+                                                and    表示并列条件
+                                                or     表示或者
+
+
+                                    order by：表示排序
+                                           asc表示升序
+                                           desc表示降序
+                                                     
+     
+                                    limit: 表示限制 (n,m 跳过n条数据，取出m条数据)
+
+
+                            命令中有表单基本查询语句的运行顺序:  先from拿整个表,然后where进行筛选,再然后select进行选择,再order by,再limit。       
+
+
+
+        
+         */
+    </script>
+</body>
+</html>

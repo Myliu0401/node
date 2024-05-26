@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+                espress路由: 
+                在express函数的静态属性:  这个函数会返回一个函数,相当于返回一个中间件      配置对象可传可不传
+                             Router(配置对象)   这个函数返回一个 router中间件函数。
+
+                             这个 router中间件函数上的属性: 
+                                             请求方式函数('路径',(res,req)=>{
+
+                                             })
+                             当执行 router中间件函数上的请求方式函数时,会往router中间件上添加 router上的请求方式函数的回调。
+                             相当于: router.get('/:id',(res,req)=>{}) 
+                                    会往router中间件上添  router.get{
+                                                                 '/:id':(res,req)=>{}
+                                                               }
+                              当请求时,router(res,req)=>{
+                                       //相当于这样
+                                       router[res.method][res.path](res,req)
+                              }     
+                              
+                              
+                              
+                                               
+                              
+        
+        
+        */
+    </script>
+</body>
+
+</html>

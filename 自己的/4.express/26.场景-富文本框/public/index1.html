@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      
+    </style>
+</head>
+
+<body>
+    <p class="p">
+        <img src="" alt="头像" />
+    </p>
+    <p>
+        <input type="file" multiple>
+    </p>
+    <p>
+        <button>提交</button>
+    </p>
+    <script>
+        function file() {
+            //获取元素
+            const file = document.getElementsByTagName('input')[0];
+
+            const img = document.getElementsByTagName('img')[0];
+
+
+            //生成报文格式
+            const formdata = new FormData();
+
+            formdata.append('a', '123456');
+            formdata.append('naisi', file.files[0], file.files[0].name);
+
+
+            fetch('http://localhost:8848/api/File', {
+                method: 'POST',
+                body: formdata
+            }).then((data) => {
+                return data.json();
+            }).then((data) => {
+                if (typeof (data) !== 'object') {
+                    img.src = data
+                }
+
+            })
+        };
+
+        document.getElementsByTagName('button')[0].onclick = function () {
+            file();
+        };
+    </script>
+</body>
+
+</html>

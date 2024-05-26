@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function a() {
+            return new Promise((rsovle, reject) => {
+                setTimeout(() => {
+                    rsovle(123)
+                }, 3000)
+            })
+        };
+
+        function n() {
+            console.log('--------')
+            return 'fadfas'
+        }
+
+        async function b() {
+            const l = await n()
+            console.log(l)
+            /* return 123 */
+        };
+
+
+        const l = b()
+        l.then((data) => {
+            console.log(123456, data)
+        })
+        console.log('..........')
+
+        function ll() {
+            try {
+                throw 3
+            } catch (err) {
+                var a = err
+                console.log(a)
+            };
+            console.log(a, 124)
+        }
+        ll();
+
+        function av() {
+            return new Promise((rsovle, reject) => {
+                rsovle(123)
+            })
+        };
+
+        async function ap() {
+            const k = await av();
+            return '刘'
+            const m = await av();
+            return '另' //状态一旦确定就无法更改
+        }
+       km = ap();
+       console.log(km)
+    </script>
+</body>
+
+</html>

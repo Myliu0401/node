@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+      [{
+            id: 'A1',
+            text: 'jsonp的解决方案',
+        }, {
+            id: 'A2',
+            text: 'jsonp的缺陷',
+        }, {
+            id: 'A3',
+            text: 'CORS',
+            childNode: [{
+                id: 'A3_A1',
+                text: '简单请求',
+            }, {
+                id: 'A3_A2',
+                text: '预检请求',
+            },{
+                id: 'A3_A3',
+                text: '附带凭证请求',
+            }]
+        }]
+
+    /*
+       `<div class="mume markdown-preview  ">
+
+            <script>
+                function setCurrent() {
+                    const links = document.querySelectorAll(".md-sidebar-toc a")
+                    for (const link of links) {
+                        link.style.color = "";
+                    }
+                    const hash = location.hash;
+                    const a = document.querySelector('a[href="' + hash + '"]');
+                    if (a) {
+                        a.style.color = "#f40";
+                    }
+                }
+                setCurrent();
+                window.onhashchange = setCurrent;
+  </script>
+  <blockquote>
+    <p id="A1">Jsonp解决跨域的方案<br>
+      浏览器端：利用页面中的<strong>script标签</strong>来发送请求，因为页面标签的请求不受同源策略的限制，这是浏览器规定的。<br>
+      服务器端：将响应数据包裹在一个函数中，但必须是字符串，相当于 <strong>Callback(数据)</strong>，并且必须在响应头在设置消息体为js类型。将包裹的函数响应给浏览器。<br>
+      所以当浏览器执行时，必须要有该函数，否则将会报错。</p>
+  </blockquote>
+  <blockquote>
+    <p id="A2">jsonp的缺陷<br>
+      因为利用页面的标签来发送请求只能是 <strong>GET</strong> 方式<br>
+      严重影响了服务器的响应消息体格式。如：必须将响应消息体包裹在一个函数中 <strong>Callback(数据)</strong><br>
+      由于jsonp的缺陷问题，严重影响了前后端，所以出现了另一个更好解决跨域的方案 <strong>CORS</strong></p>
+  </blockquote>
+  <h1 class="mume-header" id="A3">CORS</h1>
+
+  <p>Cors是基于<code>http1.1</code>的一种跨域解决方案，全称为 <strong>C</strong>ross-<strong>O</strong>rigin <strong>R</strong>esource
+    <strong>S</strong>haring，跨域资源共享。
+  </p>
+  <p><code>cors</code>的思路是，<strong>如果浏览器想要跨域访问服务端资源，就必须获得服务器的允许</strong><br>
+    <img src="http://mdrs.yuanjin.tech/img/image-20200421152122793.png" alt="image-20200421152122793">
+  </p>
+  <p>客户端的一个请求，可以附带很多东西，从而对服务器造成不同程度的影响：有的请求只是想获取一些数据用于展示，有的请求会改动服务器数据。</p>
+  <p>针对不同的请求，cors规定了三种不同的交互模式 分别是如下：</p>
+  <ul>
+    <li><strong>简单请求</strong></li>
+    <li><strong>需要预检的请求</strong></li>
+    <li><strong>附带身份的凭证请求</strong></li>
+  </ul>
+  <p>这三种模式从上到下层层递进，请求可以做的事情越来越多，但是要求也越来越严格。</p>
+  <p>这三种请求的规范</p>
+  <h1 class="mume-header" id="%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82 A3_A1">简单请求</h1>
+
+  <p>当浏览器运行一段ajax代码时（无论是使用XMLHttpRequest还是fetch api），浏览器都会首先判断是属于哪一种请求模式。</p>
+  <h2 class="mume-header" id="%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82%E7%9A%84%E5%88%A4%E5%AE%9A">简单请求的判定</h2>
+
+  <ol>
+    <li>当请求<strong>同时满足</strong>一下条件时，浏览器会认为它是一个简单请求
+      <ul>
+        <li>get</li>
+        <li>post</li>
+        <li>head</li>
+      </ul>
+    </li>
+    <li><strong>请求头仅包含安全字段，常见的安全字段如下：</strong>
+      <ul>
+        <li><code>Accept</code></li>
+        <li><code>Accept-Language</code></li>
+        <li><code>Content-Language</code></li>
+        <li><code>Content-Type</code></li>
+        <li><code>DPR</code></li>
+        <li><code>Downlink</code></li>
+        <li><code>Save-Data</code></li>
+        <li><code>Viewport-Width</code></li>
+        <li><code>Width</code></li>
+      </ul>
+    </li>
+    <li><strong>如果请求头包含了<code>Content-Type</code>,仅限下面的值之一</strong>
+      <ul>
+        <li><code>text/plain</code></li>
+        <li><code>multipart/form-data</code></li>
+        <li><code>application/x-www-form-urlencoded</code></li>
+      </ul>
+    </li>
+  </ol>
+  <p>如果上面三种要求同时满足，那么浏览器会判定该请求为<strong>简单请求</strong><br>
+    例子</p>
+  <pre data-role="codeBlock" data-info="js" class="language-javascript"><code class="hljs"> 
+      <span class="hljs-regexp">//</span>简单请求
+     fetch(<span class="hljs-string">&#x27;https://www.baidu.com/api/news&#x27;</span>);
+ 
+     <span class="hljs-regexp">//</span>请求的方式不满足要求，不是简单请求
+     fetch(<span class="hljs-string">&#x27;https://www.baidu.com/api/news&#x27;</span>,{
+       method:<span class="hljs-string">&#x27;PUT&#x27;</span>
+     });
+ 
+     <span class="hljs-regexp">//</span>加入了，额外的请求头，不是简单请求
+     fetch(<span class="hljs-string">&#x27;https://www.baidu.com/api/news&#x27;</span>,{
+       headers:{
+         nice:<span class="hljs-number">123</span>
+       }
+     });
+ 
+     <span class="hljs-regexp">//</span>简单请求
+     fetch(<span class="hljs-string">&#x27;https://www.baidu.com/api/news&#x27;</span>,{
+       method:<span class="hljs-string">&#x27;post&#x27;</span>
+     });
+ 
+     <span class="hljs-regexp">//</span>不是简单请求
+     fetch(<span class="hljs-string">&#x27;https://www.baidu.com/api/news&#x27;</span>,{
+       headers:{
+         <span class="hljs-string">&quot;content-type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>
+       }
+     });</span>
+
+
+  <span class="token comment">//等等 。。。。。。</span></code>
+</pre>
+  <h2>简单请求的交互规范</h2>
+  <p>当浏览器判断某一个<strong>ajax跨域请求</strong>为<strong>简单请求</strong>时，会发生以下事情</p>
+  <ol>
+    <li>在请求头中自动加入<strong>Origin</strong>字段<br>
+      比如：在页面<code>https://www.yulian.pro</code>中有以下代码造成跨域。</li>
+  </ol>
+  <pre data-role="codeBlock" data-info="js" class="language-javascript"><code class="hljs"> <span class="hljs-regexp">//</span>简单请求
+      fetch(<span class="hljs-string">&#x27;https://www.baidu.com/api/news&#x27;</span>);</code>
+</pre>
+  <p>该请求发出后，请求头会是下面的格式：</p>
+  <pre data-role="codeBlock" data-info="" class="language-"><code>  GET /api/news/ HTTP/1.1
+  Host: baidu.com
+  Connection: keep-alive
+  ...
+  Referer: https://www.yulian.pro
+  Origin: https://www.yulian.pro
+</code></pre>
+  <p>这个<code>Origin</code>字段就会告诉服务器，那个源在进行跨域请求</p>
+  <ol start="2">
+    <li>服务器在响应时必须在响应头包含<code>Access-Control-Allow-Origin</code><br>
+      当服务器收到请求后，如果允许请求跨域访问，就需要在响应头中包含<code>Access-Control-Allow-Origin</code>字段。<br>
+      该字段的值会表示不同的含义：</li>
+  </ol>
+  <ul>
+    <li>*：表示什么源都允许访问</li>
+    <li>具体的源：表示我就只允许你访问</li>
+  </ul>
+  <blockquote>
+    <p>实际上，这两个值对于客户端<code>https://yulian.pro</code>而言，都一样，因为客户端才不会管其他源服务器允不允许，就关心自己是否被允许<br>
+      服务器，也可以维护一个允许跨域访问的源列表，有请求的<code>Origin</code>命中该列表才响应 <code>*</code> 或具体的 <strong>源</strong></p>
+  </blockquote>
+  <p>如果服务器做出以下响应：</p>
+  <pre data-role="codeBlock" data-info="" class="language-"><code>  HTTP/1.1 200 OK
+  Date: Tue, 21 Apr 2020 08:03:35 GMT
+  ...
+  Access-Control-Allow-Origin: http://yulian.pro
+</code></pre>
+  <p>当浏览器看到自己被服务器允许访问后，就会将响应体交给 js，就可以完成后续操作<br>
+    <img src="http://mdrs.yuanjin.tech/img/image-20200421162846480.png" alt="image-20200421162846480">
+  </p>
+  <h2 class="mume-header" id="A3_A2">需要预检的请求</h2>
+
+  <p>简单请求对服务器的威胁不大，所以允许使用上述的简单交互即可完成。<br>
+    但是，如果浏览器如果不是一个简单请求，就会按照下面的流程进行：</p>
+  <ol>
+    <li><strong>浏览器发送预检请求，询问服务器是否允许</strong></li>
+    <li><strong>服务器允许</strong></li>
+    <li><strong>发送真实的请求</strong></li>
+    <li><strong>服务器完成真实的响应</strong><br>
+      比如：<code>https://www.yulian.pro</code>有以下代码造成跨域</li>
+  </ol>
+  <pre data-role="codeBlock" data-info="js" class="language-javascript"> <code class="hljs"><span class="hljs-keyword">fetch</span>(<span class="hljs-string">&#x27;https://www.baidu.com/api/new&#x27;</span>,{
+      <span class="hljs-keyword">method</span>:<span class="hljs-string">&#x27;post&#x27;</span>,
+      headers:{
+        nice:<span class="hljs-number">123</span>,
+        &quot;content-type&quot;: &quot;application/json&quot;
+      }
+      body: <span class="hljs-type">JSON</span>.stringify({ <span class="hljs-type">name</span>: &quot;刘玉联&quot;, age: <span class="hljs-number">18</span> })
+    });</code>
+</pre>
+  <p>浏览器判断该跨域请求不是一个简单的请求，就会按照下面的流程与服务器进行交互。</p>
+  <ol>
+    <li><strong>浏览器发送预检请求，询问服务器是否允许</strong></li>
+  </ol>
+  <pre data-role="codeBlock" data-info="" class="language-"><code>OPTIONS /api/user HTTP/1.1
+Host: crossdomain.com
+...
+Origin: https://www.yulian.pro
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers:nice, content-type
+</code></pre>
+  <p>这个请求并非我们发出的真实请求，请求中没有想要的请求头，也没有消息体。<br>
+    这是一个预检请求，目的是为了询问服务器，是否允许后续的真实跨域请求。<br>
+    预检请求<strong>没有请求体</strong>，它包含了后续真实请求要做的事情<br>
+    预检请求有以下特征：</p>
+  <ul>
+    <li>请求方法为<code>OPTIONS</code></li>
+    <li>没有请求体</li>
+    <li>请求头中包含
+      <ul>
+        <li><code>Origin</code>：请求的源，和简单请求的含义一致</li>
+        <li><code>Access-Control-Request-Method</code>：后续的真实请求将使用的请求方法</li>
+        <li><code>Access-Control-Request-Headers</code>：后续的真实请求会改动的请求头</li>
+      </ul>
+    </li>
+  </ul>
+  <ol start="2">
+    <li><strong>服务器允许访问</strong><br>
+      服务器收到预检请求后，可以根据请求头的信息判断是否允许该跨域请求访问，如果允许，需要响应以下的消息格式</li>
+  </ol>
+  <pre data-role="codeBlock" data-info="" class="language-"><code>HTTP/1.1 200 OK
+Date: Tue, 21 Apr 2020 08:03:35 GMT
+...
+Access-Control-Allow-Origin: http://www.yulian.pro
+Access-Control-Allow-Methods: POST
+Access-Control-Allow-Headers: nice, content-type
+Access-Control-Max-Age: 86400
+···
+</code></pre>
+  <p>对于预检请求，不需要任何的消息体，只需要在响应头中添加：</p>
+  <ul>
+    <li><code>Access-Control-Allow-Origin</code>：和简单请求一样，表示允许的源</li>
+    <li><code>Access-Control-Allow-Methods</code>：表示允许的后续真实的请求方法</li>
+    <li><code>Access-Control-Allow-Headers</code>：表示允许改动的请求头</li>
+    <li><code>Access-Control-Max-Age</code>：告诉浏览器，多少秒内，对于同样的请求源、方法、头，都不需要再发送预检请求了</li>
+  </ul>
+  <ol start="3">
+    <li><strong>浏览器发出真实请求</strong><br>
+      预检被服务器允许后，浏览器就会发送真实请求了，上面的代码会发生下面的请求数据</li>
+  </ol>
+  <pre data-role="codeBlock" data-info="" class="language-"><code>POST /api/user HTTP/1.1
+Host: www.baidu.com
+Connection: keep-alive
+...
+Referer: https://www.yulian.pro
+Origin: https://www.yulian.pro
+
+{"name": "刘玉联", "age": 18 }
+</code></pre>
+  <ol start="4">
+    <li><strong>服务器响应真实的请求</strong>
+      <pre data-role="codeBlock" data-info="" class="language-"><code>HTTP/1.1 200 OK
+Date: Tue, 21 Apr 2020 08:03:35 GMT
+...
+Access-Control-Allow-Origin: https://www.yulian
+
+。。。。。。等等数据
+</code></pre>
+    </li>
+  </ol>
+  <p>当预检请求完之后，后续是跟简单请求相同的<br>
+    <img src="http://mdrs.yuanjin.tech/img/image-20200421165913320.png" alt="image-20200421165913320">
+  </p>
+  <h2 class="mume-header" id="A3_A3">
+    附带身份凭证的请求</h2>
+
+  <p>默认情况下，ajax的跨域请求并不会附带cookie，这样一来，某些需要权限的操作就无法进行<br>
+    不过可以通过简单的配置就可以实现附带cookie</p>
+  <pre data-role="codeBlock" data-info="js" class="language-javascript"><code class="hljs"><span class="hljs-comment">// xhr</span>
+      <span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest();
+      xhr.withCredentials = <span class="hljs-literal">true</span>;
+      
+      <span class="hljs-comment">// fetch api</span>
+      fetch(<span class="hljs-built_in">url</span>, {
+        <span class="hljs-attribute">credentials</span>: <span class="hljs-string">&quot;include&quot;</span>
+      })</code>
+</pre>
+  <p>这样一来，该跨域的ajax请求就是一个<em>附带身份凭证的请求</em><br>
+    当一个请求需要附带<strong>cookie</strong>时，无论是<code>简单请求</code>还是<code>预检请求</code>都会在请求头中添加<strong>cookie</strong>字段<br>
+    而服务器响应时，需要明确告知客户端：服务器允许这样的凭据</p>
+  <p>告知的方式也非常的简单，只需要在响应头中添加：<code>Access-Control-Allow-Credentials: true</code>即可<br>
+    对于一个附带身份凭证的请求，若服务器没有明确告知，浏览器仍然视为跨域被拒绝。</p>
+  <p>另外要特别注意的是：<strong>对于附带身份凭证的请求，服务器不得设置 <code>Access-Control-Allow-Origin 的值为*</code></strong>。这也就是不推荐使用*的原因</p>
+  <h2 class="mume-header" id="%E5%8F%A6%E5%A4%96">另外</h2>
+
+  <p>
+    在跨域访问时，JS只能拿到一些最基本的响应头，如：Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma，如果要访问其他头，则需要服务器设置本响应头。
+  </p>
+  <p><code>Access-Control-Expose-Headers</code>头让服务器把允许浏览器访问的头放入白名单，例如：</p>
+  <pre data-role="codeBlock" data-info="" class="language-"><code>Access-Control-Expose-Headers: authorization, a, b
+</code></pre>
+  <p>这样JS就能够访问指定的响应头了。</p>
+
+  </div>`
+
+
+  */
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                     
+                            cookie: 是存储在客户端
+                               优点: 存储在客户端,不占用服务器资源
+                               缺点: 1.只能是字符串格式 
+                                     2.存储量有限
+                                     3.数据容易被获取
+                                     4.数据容易被篡改
+                                     5.数据容易丢失
+
+                            session: 是存储在服务器端
+                               优点: 1.可以是任何格式, 如:对象、数组等等
+                                     2.存储量理论上是无限的
+                                     3.数据难以被获取
+                                     4.数据难以被篡改
+                                     5.不易丢失
+                               缺点: 占用服务器资源
+
+                             session的原理: 
+                                 浏览器向服务器发送请求时,session会在服务器中会判断是否有这个请求过,如果
+                                 没有就会向一个 队列表 里添加uuid数据和值,值为一个对象,对象里包含请求的信息。并且在响应头中添加一个cookie,值就是对应的uuid。
+                                     sessionID        value
+                                        uuid           {}
+                                 如果请求服务器时有附带了一个sessionid,就是一个cookie,那么会判断是那个uuid,如果找到对应的uuid,就不会在 队列表 中新建多一个uuid了,也不会在响应时发过去。
+                                 必须cookie的名和值,都匹配,session才不会生成uuid。
+
+                                 如果session在服务器中发现有长期没有请求与uuid对应,就会将这个uuid销毁掉。
+
+                                 上面的销毁情况是指在内存下的。
+
+                              详情看课件的图片
+                 
+
+                          
+                             express-session库:
+                                     是专门用来生成session和管理session的。
+
+                                安装: 
+                                  npm install express-session
+
+                                使用: 
+                                  这个库导出一个函数,执行该函数会返回一个 session中间件函数。
+
+                                  这个session中间件函数必须传参数,参数为一个 配置对象。
+                                  配置对象里必须配置secret属性,其他可以不用配置,没有配置的表示使用默认配置。
+
+                                  配置对象里的属性:
+                                         cookie:{ //给浏览器发回的cookie的属性
+                                              path: 默认值为 '/'
+                                              httpOnly:  默认值为true, 
+                                              secure:  默认值为false,
+                                              maxAge: 默认值为null,表示会话结束后浏览器会自动销毁 
+                                         }
+                                         secret:'字符串' 必须配置这个属性。  这个属性是用来加密cookie的值的,和用来解密cookie的值。
+                                         name:'cookie字段的名称'
+                                         
+                                 session中间件,当请求过来时会往req对象中添加一个session对象,并且找到 队列表 中对应的uuid的值放进
+                                 req对象里的session对象里。
+                                 可以往这个req对象里的session对象里添加任何属性。
+        */
+  </script>
+</body>
+
+</html>

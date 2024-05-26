@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*  
+        
+                  socket.io库: 这个库是专门用来处理socket这个特殊文件,这个库可以与多种协议使用。
+                            这个库可以在浏览器端使用也可以在服务器端使用。
+
+                  必须版本为 "socket.io": "^2.3.0"
+
+                        在node服务器端: 
+                           const app = require（'express'）（）; 
+                           const server = require（'http'）.createServer（app）;                                     
+                           const options = { / * ... * / }; 
+                           const io = require（'socket.io'）（server，options）;  //这socket.io库导出一个函数,这个函数会对参数服务器进行包装处理并返回。
+                                                                                 配置对象可以不传
+                                    返回的这个io对象就是专门来处理websocket的
+                           
+
+                           监听websocket,http握手成功后触发
+                           io.on（'connection'，socket => { 
+                                    
+                                    //监听websocket请求过来的数据
+                                    socket.on('事件名为自定义',(hucnk)=>{
+                                     
+                                    })客户端发送过来的事件名与这个事件对应才会触发相应的事件
+                                      
+                                    socket.broadcast.emit();
+                                      broadcast表示广播,socket会通过服务器将数据发回给目前除自己外的所有连接到之外服务器的客户端。
+
+                                      
+                                    socket.emit('事件名为自定义','发回给客户端的消息')
+
+                                    //socket断开事件,也就是链接断开事件
+                                    socket.on('disconnect',()=>{})
+
+                            }）; //监听请求,会对回调函数的参数socket进行特殊处理
+
+                            
+                           
+                           server.listen（3000）;
+
+
+
+                        在浏览器端: 
+                           采用cdn链接,会在winodw中有一个io对象。
+                           const socket = io.connect(url地址);  如果没传会默认使用当前页面的 
+
+                           //发送请求给服务器
+                           socket.emit('自定义事件名','内容')
+
+                           //监听服务器传回来的的数据,只有事件与服务器传回来的相同才会触发
+                           socket.on("自定义事件名", (chunk) => {
+                             console.log(chunk);
+                           });
+
+                           //链接断开触发
+                           socket.on("disconnect", () => {
+                             console.log("closed");
+                           });
+        
+        
+        
+        
+        
+        */
+    </script>
+</body>
+
+</html>

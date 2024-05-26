@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <scrpit>
+        <!-- 
+                访问器:       
+                   在定义模型的define函数的第二个参数配置对象里,配置属性时可以在对象里添加
+                   get函数    当查询到对应的属性时会执行这个函数,并且将这个函数的返回值,做为查询到的值
+                   这个函数里的this值是这个模型表查询到的对应记录(实例)。 
+                   这个get函数相当于查询对应的属性是就会执,相当于 Object.defineProperty 属性描述符,所以
+                   想要执行这个函数时想要修改对应的属性不能 this.name 会无限循环执行。
+
+                   记录实例对象中有 getDataValue('属性') 这个函数会返回参数的属性值,用这个方法来获取对应的属性值,避免了无限执行。
+                   
+                   如: sequelize.define('表名',配置对象{
+                       //配置表里的属性
+                       name:{
+                          type:DataTypes.STRING,
+                          get(){ //查询到这个name属性时执行这个get函数,并且将返回值作为查询到的值。
+
+                          }
+                       }
+                   })
+
+                  自己想的: 
+                  因为sequlize框架,api内部函数会进过一个对象,对象包含,配置那些属性,所以,当无论是查询还是其他,
+                  只要调用sequlize框架的api有操作到数据库,就会执行到每个属性对象里面的get函数。
+                  坑多多,只能认了。
+
+
+                虚拟字段: 
+                   虚拟字段是 sequelize 在后台填充的字段,但实际上它们不存在与数据库中
+                   
+                   sequelize.define('表名',配置对象{
+                       //配置表里的属性
+                          fullName: { //这个fullName属性,数据库是没有的,只是用来当做增加的数据,显示出来
+                            type: DataTypes.VIRTUAL, //类型必须设置 VIRTUAL 虚拟
+                            get() {
+                              return fullName属性的值;  
+                            },
+                        }
+                    }
+
+
+
+
+
+
+         -->
+    </scrpit>
+</body>
+
+</html>

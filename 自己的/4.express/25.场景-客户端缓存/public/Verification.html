@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+        账号: <input type="text" id="zhanhao">
+    </p>
+    <p>
+        密码: <input type="password" id="mima">
+    </p>
+    <p id="p" style="display: none;">
+        验证码: <input type="text" id="yazhengma">
+        <img src="/create" alt="验证码" id="img">
+    </p>
+    <p>
+        <button id="button">登录</button>
+    </p>
+
+    <script>
+        //用来刷新验证码
+        function suaxin() {
+            img.src = `/create?naisimi=${Math.random()}`
+        }
+
+        button.onclick = async function () {
+            const inputObj = {
+                Gzhanhao: zhanhao.value,
+                Gmima: mima.value,
+            };
+
+            if (p.style.display === 'block') {
+                inputObj.create = yazhengma.value;
+            }
+
+          await fetch('/api/admin/Signin', {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(inputObj)
+            }).then((data) => {
+                return data.json();
+            }).then((data) => {
+                console.log(data)
+                if (data.code === 401) {
+                    console.log(data.data);
+                    p.style.display = 'block';
+                    suaxin();
+                } else if (data.code === 500) {
+                    console.log(data.msg);
+                    suaxin();
+                } else {
+                    console.log('登录成功');
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

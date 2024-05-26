@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                  图片水印: 
+                     1.上传时加水印
+                       用户上传原始图片  --->服务器:保留原始图片以及添加水印图片
+
+                     2.动态水印
+                       用户上传原始图片 ---> 服务器:只保留原始图片,当用户请求时再添加水印
+                    
+           
+                  jimp库: 
+                     这个库专门用来处理图片水印等等
+
+                  安装: 
+                    npm install jimp
+
+                  使用: 
+                     这个库导出一个 Jimp对象,这个Jimp对象里的属性: 
+                           read('图片路径',回调) 可以传两个参数也可以传一个参数。
+                             只有一个参数为路径那么 read函数返回一个Primsoe对象, 会将lenna对象作为正常推向, err作为错误推向。
+                             两个参数:第一个为路径 第二个为回调函数,回调函数第一个形参为err,如果没有报错那么err为null, 第二个形参为lenna对象。
+                               lenna对象里的属性: lenna对象为读取图片后再进行封装成一个对象。相当于一个Jimp实例
+                                      resize(256, 256) // 图片大小
+                                      quality(60) // 设置JPEG质量
+                                      greyscale() // //组灰度 
+                                      .... 其他属性请看文档  参数的意思也请查看文档
+                                      write('路径');  //保存在这个路径,会将最终处理后的二进制数据写入到这个文件中。
+                                    
+                                              
+                  
+                            
+    */
+   
+  </script>
+</body>
+
+</html>

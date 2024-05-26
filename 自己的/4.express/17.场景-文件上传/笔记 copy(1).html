@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+
+                 文件上传: 
+                     文件上传使用http报文格式。  也就是 form-data 格式
+                          ----WebKitFormBoundary7MA4YWxkTrZu0gW
+                          Content-Disposition: form-data; name="a"  a表示键名
+                          
+                          123   表示键值
+                          ----WebKitFormBoundary7MA4YWxkTrZu0gW
+                          Content-Disposition: form-data; name="b"
+                          
+                          321
+                     
+                      会在请求头中添加属性
+                                   Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+                                     表示请求体是 http报文格式。 boundary表示边界, 报文每块内存以----WebKitFormBoundary7MA4YWxkTrZu0gW为边界
+                      
+                                
+                      由于报文格式的请求体过于麻烦: 
+                             winodw中有一个 FormData构造函数。会返回一个formdata实例
+                             formdata实例对象里的属性: 
+                                              append('键名','键值','命名文件的名子')  第三个参数可以不传,默认使用文件的路径命名
+                        
+                             然后将整个formdata实例作为请求体。
+
+                      input元素如果是 tpye="file" 类型,也就是文件类型,那么input元素里有一个files属性
+                      这个files属性为数组,数组包含上传文件的信息。
+                      input元素行间属性 multiple 表示上传多个文件。
+
+
+
+
+
+
+
+
+            这节课有教看文档
+
+                  multer库:  
+                      这个库是专门处理请求体格式类型为 form-data ,就是专门处理文件类型,会对form-data类型请求体
+                      进行解析。
+
+                  安装: 
+                    npm install multer
+
+                  使用: 
+                    这个multer库导出一个 Multer函数,执行这个函数会返回一个 upload对象,这个Multer函数可以传一个参数为配置对象。
+
+                    这个uploade对象里的属性: 
+                                     single(键名)       这个函数只能处理一个文件,也就是只能处理上传一个文件的请求
+                                       req.file 是 键名 这个文件的信息
+                                 
+                                     array(键名,最多几个)  第二个参数表示最多处理几个
+                                       req.files 是 键名 文件组的信息, 就是键名一样的都规这个函数处理
+
+                                     fields([{name:'键名',maxCount:1},{name:'键名',maxCount8},...])   maxCount表示最多几个
+                                        会根据参数进行处理 
+                                        req.files是一个对象,对象里的属性: 
+                                                                 键名: 数组    数组里面的每一项对应 上传的文件 
+                                                    
+                                     none()
+                                       这个函数处理一个只有文本域的请求
+                                       req.body   文本域
+                                       因为只处理文本域所以没有req.file和req.files
+
+                                     any() 
+                                       能处理一切上传的文件,文件组信息包含在req.files中
+
+
+                      这些函数会返回一个中间件函数,这些中间件函数内部会往 形参request对象里添加 body对象以及file或files对象,
+                      其中body对象包含请求体文本域信息,file或files对象包含请求体的文件信息,也就是请求上传的文件信息。
+
+                    
+                    每个文件的信息: 
+                             请看文档
+
+                    
+                    Multer函数的参数配置对象: 
+                                    dest: 目录            上传的文件将保存在这个路径的文件夹中,如果没有传这默认保存在内存中而没有保存在文件夹中。
+                                                          但是,为了解决命名冲突,Multer会修改上传的文件名。
+                                    
+                                    storage: storage       配置这个属性就不用配置 dest属性,配置dest就不用配置storage属性
+                                        这个配置也是控制文件的存储
+                                        在 Multer函数的静态属性上有一个 diskStorage({
+                                                 destination: 
+                                                 filename: 
+                                        })函数       
+                                            destination选项可以是字符串也可以是函数。
+                                                 字符串类型为 路径  表示文件存储在这个文件夹下
+                                                 函数类型 function(req,file,cb){
+                                                        cb(null,'路径')  执行这个形参函数 表示文件将存储在第二个实参的这个文件夹下
+                                                 }
+
+                                            filename选项为函数类型 function(req,file,cb){
+                                                 cb(null,'文件名')  存储后的文件将以这个名字命名
+                                            }
+                                        
+                                        配置后diskStorage函数会返回一个对象storage,将这个storage对象作为配置对象storage选项的值
+
+                                    fileFilter:函数   表示过滤器,来控制什么文件可以上传以及什么文件应该跳过
+                                         function(req,file,cb){
+                                           // 这个函数应该调用 `cb` 用boolean值来指示是否应接受该文件
+                        
+                                           // 拒绝这个文件，使用`false`，像这样:
+                                           cb(null, false)
+
+                                           // 接受这个文件，使用`true`，像这样:
+                                           cb(null, true)
+
+                                           // 如果有问题，你可以总是这样发送一个错误:
+                                           cb(new Error('I don\'t have a clue!'))
+                                         }
+                                               
+                                    limits:对象   表示限制上传的数据
+                                        对象里配置的选项请看 文档
+    */
+  </script>
+</body>
+
+</html>

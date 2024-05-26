@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+                  
+            
+            安装node 智能提示代码: 
+               npm install -D @types/node
+
+            全局对象: 
+               global
+               相当于浏览器的window对象
+               全局对象里有一个global属性,这个属性跟全局对象是一摸一样的
+               全局对象里的属性:
+                        global
+                        setTimeout---计时器
+                        clearInterval---清除计时器
+                        clearTimeout---清除计时器
+                        setImmediate--计时器(相当于 setTimeout 0秒执行)
+                        clearImmediate-- 清除这个setImmediate的
+                        queueMicrotask(回调函数)---会将回调放进微队列然后执行
+                        console---跟winodw里的一样
+                        __dirname----获取当前代码模块所在的目录地址,但并非全局对象global的属性
+                        __filename---获取当前代码模块所在的文件地址,但并非全局对象global的属性
+                        process---对象,这个对象里面的属性: 
+                           cwd函数---返回命令行的路径
+                           exit函数---表示强制退出当前node进程,相当于执行该函数,node的运行就结束
+                                      可以传入退出码,0表示成功退出,默认为0
+                           argv---返回启动node进程的命令参数,为数组的形式,数组第一项为node文件的绝对路径,第二项为node执行的文件的绝对路径
+                           platform---获取当前的操作系统“如 win”
+                           arch----获取当前操作系统的位数“如 64位”  
+                           kill(进程的id编号)函数----根据进程id强制关闭进程(任务管理器里的进程) 
+                           env---获取环境变量      
+                        Buffer---类型化数组(为一个类)
+                            这个类上的静态方法 from 这个函数传一个或两个参数  第一个为字符串数据  第二个为编码(可以不传,默认为 utf-8)
+                            这个方法会将第一个参数数据转换成一个Buffer数组并返回,数组的长度就是 字节
+ 
+                            这个类上的静态方法 concat 这个函数传一个参数为数组, 数组里面是Buffer数组,会将数组里的Buffer数组合并为一个Buffer数组,并返回
+
+                        其他属性.....
+
+        
+               在node环境里的 计时器返回的是一个对象,而不是计时器编号
+        
+        
+        
+        */
+
+    </script>
+</body>
+
+</html>

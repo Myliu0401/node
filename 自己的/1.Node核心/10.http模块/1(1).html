@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+           输出结果：
+             const formatData = [
+             { id: 1, title: "课程 1" },
+             { id: 4, title: "课程 1-1" },
+             { id: 5, title: "课程 1-2" },
+             { id: 6, title: "课程 1-2-1" },
+             { id: 7, title: "课程 1-2-2" },
+             { id: 1, title: "课程 2" },
+             { id: 1, title: "课程 3" },
+             ];
+         */
+        const data = [{
+                id: 1,
+                title: "课程 1",
+                children: [{
+                        id: 4,
+                        title: "课程 1-1"
+                    },
+                    {
+                        id: 5,
+                        title: "课程 1-2",
+                        children: [{
+                                id: 6,
+                                title: "课程 1-2-1"
+                            },
+                            {
+                                id: 7,
+                                title: "课程 1-2-2"
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id: 2,
+                title: "课程 2",
+            },
+            {
+                id: 3,
+                title: "课程 3"
+            },
+        ];
+
+        //太过于杂乱
+        function paixu(data) {
+            const arr = data.map((el) => {
+                if (el.children) {
+                    return zhixin(el, []).sort((a, b) => {
+                        return a.id - b.id;
+                    })
+                } else {
+                    return el
+                }
+
+            });
+            return zhuli(arr, []);
+        };
+
+        function zhuli(arr, arr1) {
+            arr.forEach((ele) => {
+                if (ele.length) {
+                    zhuli(ele, arr1);
+                } else {
+                    arr1.push(ele)
+                }
+            })
+            return arr1;
+        }
+
+        function zhixin(el, arr) {
+            const obj = {};
+            for (var value in el) {
+                if (value === 'children') {
+                    el[value].forEach((ele) => {
+                        if (!ele.children) {
+                            arr.push(ele);
+                        } else {
+                            zhixin(ele, arr)
+                        }
+                    })
+                } else {
+                    obj[value] = el[value];
+                }
+            }
+            arr.push(obj);
+
+            return arr;
+        }
+
+        console.log(paixu(data));
+
+
+        //跟简单的方式
+        function ap(data1, arr) {
+            for (let itmr of data1) {
+                if (itmr.children) {
+                    ap(itmr.children, arr);
+                }
+                delete itmr.children
+                arr.push(itmr)
+            }
+            return arr;
+        }
+        console.log(ap(data, []))
+
+     function ap1(){
+         console.log(this)
+     }
+     ap1.apply(null)
+       
+
+
+      async function aP(){
+          await to(); 
+      }
+
+      async function to(){
+          console.log(123456789)
+      }
+
+      aP()
+      console.log(10009)
+    </script>
+</body>
+
+</html>

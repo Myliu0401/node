@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                             
+                     sequelize入门: 
+
+                       安装: 
+                         npm install --save sequelize
+
+                         因为这个框架不是数据库所以还要安装相应的驱动程序来完成与数据库的链接
+
+                            # 选择以下之一:
+                            $ npm install --save pg pg-hstore # Postgres
+                            $ npm install --save mysql2
+                            $ npm install --save mariadb
+                            $ npm install --save sqlite3
+                            $ npm install --save tedious # Microsoft SQL Server
+        
+                        导入 sequelize框架
+                        cosnt { Sequelize } = require('sequelize');
+                         这个框架导出一个对象,可以将对象里的 sequelize构造函数解构出来。
+
+                        连接到数据库
+                        这个 Sequelize构造函数 传四个参数 第一个为数据库名、第二个为账号、第三个为密码、第四个为配置对象
+                                 配置对象里的属性： 
+                                              host: 域名
+                                              dialect: 数据库   目前这个框架只支持 mysql、mariadb、postgres、mssql    
+                                              logging:(msg)=>{}  sequelize框架每执行一次sql语句会调用该函数并且,将sql语句作为参数传进去。
+
+                          这个Sequelize构造函数返回一个sequelize实列对象,这个实例对象会自动管理连接池和管理断开和防止sql注入等。
+                          
+                          通过这个实列对象里的api进去与数据库操作
+
+                        
+                        测试是否成功连接数据库: 
+                                      try {
+                                        await sequelize.authenticate();
+                                        console.log('Connection has been established successfully.');
+                                      } catch (error) {
+                                        console.error('Unable to connect to the database:', error);
+                                      }  
+                        
+                     模型定义: 
+                        每一个模型就是一张表,一个模型就是一个类
+
+                        查看文档操作 Model Basics - 模型基础
+
+                         主键,会自动生成且是自动递增,名为id 
+        
+                     模型之间的关系: 如. 一对一、一对多、多对多
+                       查看文档 Associations - 关联
+                         
+                         关联后会自动生成外键,名为链接表的名加id
+                        
+        */
+  </script>
+</body>
+
+</html>

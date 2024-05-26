@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                     
+                        cors库: 专门用来处理跨域的CORS处理的。
+                          
+                        安装: 
+                          npm intsall cors
+
+                        使用: 
+                          这个库导出一个 cors函数,执行该函数会返回一个 中间件函数,这个中间件函数两就处理了各种跨域CORS的配置。
+
+                        这个cors函数可以参数: 
+                           如果没有传传参 表示所有的域,都可以跨域,也就是所有的请求都能访问,但是不会在请求头中添加: 
+                               Access-Control-Allow-Credentials: true
+                               也就是不允许,浏览器跨域访问。
+                          
+                          传参数为一个配置对象: 
+                                    origin: 源或函数
+                                       源 表示只允许这个源访问
+                                       函数 cors会执行该函数并且传两个参数 第一个为 请求时请求头的 origin属性  第二个为 回调函数。
+                                            当我们执行该回调函数并且传两个参数,第一个为null 第二个源 表示允许跨域,并且响应头的origin属性的值是个二个参数。
+                                            当我们执行该回调函数并且传一个参数时,表示不允许跨域,并且会抛出错误,错误信息为参数,并且不会添加响应头的属性。
+
+                                    optionsSuccessStatus: 响应码
+
+                                    methods:配置Access-Control-Allow-Methods CORS标头
+
+                                    allowedHeaders:配置Access-Control-Allow-Headers CORS标头
+
+                                    exposedHeaders:配置Access-Control-Expose-Headers CORS标头
+
+                                    credentials:配置Access-Control-Allow-Credentials CORS标头
+
+                                    maxAge:配置Access-Control-Max-Age CORS标头
+
+                                    等等
+
+                                    除了credentials配置,如果在配置对象中没有配置,那么就不会在响应头中配置Access-Control-Allow-Credentials属性。
+                                    origin属性没配置默认为 *,但是,对于附带身份凭证的请求,服务器不得设置 Access-Control-Allow-Origin 的值为*,因为浏览器不认,
+                                    所以在传配置对象时,必须配置origin属性。
+                                    其他配置都有默认值,默认值都是根据请求头,对应的属性来的。
+
+
+                                
+
+                                  
+                       
+ 
+            
+                    
+                    
+
+                 
+                              
+        
+        
+        */
+  </script>
+</body>
+
+</html>

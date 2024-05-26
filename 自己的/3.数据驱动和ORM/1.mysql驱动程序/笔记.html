@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+                    
+                  安装驱动程序: 
+                      npm install --save mysql2
+
+
+                  使用: 
+                     导入 mysql2包
+                     cosnt mysql = require('mysql2');
+
+                     这个包是一个对象,对象里的属性: 
+                                     createConnection(配置对象)   这个函数的功能是创建一个数据库连接(相当于与数据库连接)
+                                            配置对象里的属性: 
+                                                  host: 域名,或主机名    localhost代表本地主机
+                                                  user: 账号
+                                                  password: 密码
+                                                  database: 数据库名
+                                                  multipleStatements:true 允许运行多条sql语句,相当于query函数的sql语句参数被限制只允许运行一条
+
+                                           这个函数会返回一个 connection 对象,这个对象就是与数据库连接后的对象 
+                                           connection对象里的属性: 
+                                                               end函数    与数据库断开链接
+ 
+                                                                         
+                                     createPool(配置对象)   这个函数的功能是创建一个数据库连接池,会返回一个connection对象
+                                           这个函数跟createConnection函数一样,但是,createPool函数会自动管理链接和回收链接
+
+
+                                     query(sql语句,回调函数)   这个函数是向数据库传输sql语句
+                                             参数sql语句 为一个字符串
+                                             回调函数可以传两个形参,第一个为错误,第二个为查询的结果
+                                             它会将数据库的每一个数据封装成一个对象,最后将对象放进数组,传给回调的第二个形参
+ 
+                                     execute(sql语句,[xx,xx],回调)
+                                             跟quer函数的功能一样,但,这个execute函数会进行特殊处理sql语句
+                                             如果sql语句中有问号的那么就会使用参数数组里对应的字符串代替sql语句中的问号,但参数组里
+                                             的每一项是经过特殊处理的,会变成一个普通的值,而不是sql语句。
+                                             sql语句中第一个?号,就对应参数数组里第一项,依次类推
+
+
+                                             
+                    还可以导入 异步mysql2包
+                    cosnt mysql = require('mysql2/promise');
+                          这个包里的属性就是 promise对象形式的
+                         
+                          query(sql语句)  mysql对象里的这个函数就只传一个参数为mysql语句,没有报错的话会推向已决并将
+                                            查询的数据和另一个数据push进数组传给后续处理函数。
+
+                          execute(sql语句,[xx,xx])   mysql对象里的这个函数就只传两个参数,没有报错的话会推向已决并将
+                                                   查询的数据和另一个数据push进数组传给后续处理函数。 
+                                                   
+                                                   
+                    
+                //=============================================
+
+                query函数会到导致sql注入: 
+                         如: 页面输入框输入后发生一个ajax请求,附带了一个查询的id,但是这个id是从页面输入获取来的
+                             用户可能将id写成sql语句,直接发送到服务器,会导致数据库想不到的效果(如:删除、添加等)                 
+                                      
+                             
+                防止sql注入: 
+                       使用execute函数
+
+                
+                使用 createConnection 函数创建链接,没有使用end断开链接可能会导致创建链接过多,导致卡顿
+                如: 50个用户请求,创建50个链接,没有使用end断开链接,会导致占用太多服务器资源。
+                使用连接池createPool函数
+                
+                                 
+        
+        
+        
+        
+         */
+    </script>
+</body>
+</html>

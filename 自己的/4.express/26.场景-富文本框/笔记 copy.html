@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                     富文本框的本质就是一个可以被编辑的 div,
+                        编辑后得到的结果是一个html字符串。  
+                      
+                      可以在div元素的行间上添加一个属性 contenteditable
+                        添加后这个div就会变成一个可以编辑的文本框,但是缺乏js功能,如编辑后无法得到一个html字符串,得自己写js功能得到。
+
+
+                    wangeditor库: 这个库是专门用来做富文本框的。
+                      因为富文本框是在浏览器页面中操作的,所以使用es6来导入。
+
+                      对上传图片的原理: 
+                           1.用户点击上传图片,选择图片
+                           2.富文本框将图片的信息发送到服务器
+                           3.服务器返回一个图片的url路径
+                           4.富文本框生成一个img元素,使用该url路径,插入到富文本框内部
+                           必须配置接口: editor.config.uploadImgServer = '/xxxx'
+                           点击上传图片时会发送到服务器带着路径就是配置的这个接口
+                           这种模式是上传一个 img元素src为链接地址的HTML字符串。
+
+                           
+                           另一种模式
+                           1.用户点击上传图片,选择图片
+                           2.在客户端生成图片的base64格式
+                           3.富文本框生成一个img元素,使用该base64作为图片路径,插入到富文本框内部
+                           这种模式是上传一个img元素src为base64的html字符串
+
+
+                      其他基本使用请看文档
+                     
+
+    */
+  </script>
+</body>
+
+</html>

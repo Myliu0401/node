@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+                 
+
+              模块查找: 
+                   绝对路径:如  C:\Users\刘玉联\Desktop\前端\Node\自己的\1.Node核心\3.node的模块化细节\xx.js
+                   用其他路径导入最终都会被转换成绝对路径。
+
+                   相对路径: ./或../ 和 直接文件名字开头
+                           直接文件名开头的,它的查找方式: 
+                               1.检查是否是内置模块,如果是就导入内置模块。如果不是那么进入2
+                               2.检查当前模块中的node_modules文件夹里有没有, 如果没有进入3
+                               3.检查上级目录中的node_modules文件夹里有没有,一级一级的往上找,找到最高级的盘符结束,最后找不到就报错。
+                            最终都会被转化为绝对路径。
+                    
+                    后缀名: 如果导入的文件没有后缀名,会自动补全
+                            1. js  如果补上js后缀没有匹配到,那么进入2
+                            2. json 没有匹配到进入3
+                            3. node 没有匹配到进入4
+                            4. mjs 没有匹配到就报错
+
+                    文件夹: 如果仅提供目录,不提供文件名,则自动查找该目录中的index.js
+                            会先补全后缀名来查找,没找到就当成文件夹找里面的index.js。
+
+                          package.json中的main字段: 表示包的默认入口
+                            但导入或执行包时,若仅提供目录,则使用main补全入口
+                            默认值为index.js
+                            如:misi文件夹里面有 a.js 和 b.js 还有一个package.json文件,当执行文件时,有导入这个misi文件夹里的文件,就会查看这个文件夹
+                               里的package.json文件的main字段来导入或执行。
+
+                            
+               module对象:         (module对象里存储它的信息,也就是模块的信息) 
+                  id:'表示该模块的绝对路径', //入口模块id为 .
+                  path:'表示该模块的目录',
+                  exports:{} ,用于导出的
+                  parent:{ //表示父模块,也就是导入它的模块,也就是一个module对象
+                      
+                  },//没有父模块,值为null
+                  filename:自己模块的绝对路径
+                  loaded:模块是否加载完
+                  children:数组,数组里面装子模块,也就是导入的那些模块
+                  paths:数组,里面装着从盘符出发到执行文件的文件夹,的每个路径,方便查找。(详情看课件)
+                  。。。。
+
+
+               require函数: 
+                   静态属性: resolve函数,参数为目录,会查找并返回绝对路径 
+                            这个函数并没有加载模块而是得到参数的绝对路径。
+                            main对象:主模块,也就是入口模块。
+                            extensions对象:里面装着名字为 '.js' 、'.json'、'.node'、'mjs' 的处理函数,会根据导入模块的后缀名来将模块进行处理。
+                            。。。。     
+                            
+              ** 当执行一个模块或使用require时,会将模块放到一个函数环境中来执行。从而避免污染全局    
+                 require函数内部的原理: 
+                     function require(路径){
+                         1.将形参转换为绝对路径: 如：C:/Desktop/前端/Node/自己的/1.Node核心/3.node的模块化细节
+                           如果找不到就报错,找的到就进入2
+                         
+                         2.判断模块是否已有缓存,没有就进入3
+                         if(require.cache[C:/Desktop/前端/Node/自己的/1.Node核心/3.node的模块化细节]){
+                             return require.cache[C:/Desktop/前端/Node/自己的/1.Node核心/3.node的模块化细节].缓存结果
+                         }
+
+                         3.读取文件内容
+
+                         4.将读取到的内容放置在一个函数中
+                           function __temn(module,exports,require,__dirname,__filename,等其他参数){
+                               如： console.log('当前文件的目录:', __dirname);
+                                    console.log('当前文件的路径:', __filename);
+                                    this.m = 5;
+                                    exports.m = 678;
+                                    module.exports = {
+                                        a: 123,
+                                        b: 456
+                                    };
+                           }
+
+                         5.创建module对象
+                           module.exports = {}
+                           cosnt exports = module.exports
+                           
+                         6.执行__temn函数
+                           __temn.call(module.exports,module,exports,require,module.path,module.filename,等其他参数)  
+                     
+                      
+                        return module.exports;
+                    }          
+                    require.cache = {}  
+        */
+    </script>
+</body>
+</html>

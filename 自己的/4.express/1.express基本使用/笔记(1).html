@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                        express库:这个第三方库是专门用来处理请求的。
+                          
+                        安装: 
+                          npm install express
+
+                        导入: 
+                          const express = require('express');
+                        
+                        使用: 
+                          这个库导出一个 express函数  
+                          执行这个 express函数 会返回一个 Application函数,就是一个express应用。
+
+                          这个Application函数,同样有两个形参,这个函数会在内部处理不同的请求方式 如:GET、POST 等进行不同处理。
+                          方便了原生的http模块的createServer函数的形参函数里面做不同的处理。
+                          所以会将这个函数用做 http模块里的createServer函数的形参。
+                          http.createServer(Application);
+
+                          这个Application函数,内部会根据不同的请求方式或路径等交给不同函数来处理。
+
+                          Application函数的静态属性: 
+                                listen(端口号,回调函数)   这个函数是用来监听端口号的,监听成功会执行回调函数             
+                                这个函数内部实际是在函数里创建一个http模块,来完成监听的。
+                                相当于: 
+                                   function listen1(port,callback){
+                                       const http = requre('http');
+                                       const app = http.createServer(this);
+                                       app.listen(port);
+                                       app.on('listen',callback)
+                                   }
+
+                                请求方式('请求路径',callback)  会根据请求方式和路径是否一致,如果一致 Application函数的内部会执行该回调。
+
+                                请求方式('请求路径',callback) 会根据请求方式和路径是否一致,如果一致 Application函数的内部会执行该回调
+
+                                 这些如:get函数和post函数的请求方式函数的参数回调函数,就是Application函数内部的不同处理函数。
+                                 执行get函数或post函数的回调函数参数时,会传两个对象进去 Request和Response对象,但这个两个对象是经espress封装过的。
+                                  Request对象是express对message对象的封装变成的, 所以Request对象有message对象里的东西。
+                                  Response对象是express对response对象的封装变成的,所以Response对象有response对象里的东西。
+                                    Request对象里的属性: 
+                                                headers:请求头对象
+                                                path:请求路径
+                                                query:请求的参数
+                                                params:动态路由的值
+                                                baseUrl:请求方法函数的第一个参数     表示机地址  ---相当于只有use函数的有值
+                                                body:默认为undefined,  这个属性要通过内置的中间件来赋值或其他方式来赋值
+                                                ip:客户端ip地址
+                                                其他属性请看文档
+ 
+                                    Response对象里的属性: 
+                                                 send函数    传一个参数 响应体
+                                                   这个函数是发回响应,这个函数内部会自动执行 end方法,表示发回完毕。
+                                                   这个函数会自动配置响应头,会根据 send函数参数的类型,来配置响应头的content-type属性的值,和其他属性的值。  
+                                                 
+                                                  setHeader('属性名','属性值') 这个方法是往响应头里添加属性,响应头里的属性值只能是英文
+                                                     这个函数必须在send函数前面执行,因为send函数是返回响应。
+  
+                                                  end方法     执行这个函数表示发送完毕。
+
+                                                  status(响应码)  这个函数是设置响应码, 这个函数返回 this,也就是返回Response对象
+
+                                                  header('属性名','属性值')   这个函数是往响应头添加属性的, 这个函数返回 this,也就是返回Response对象
+ 
+                                                  location('值')   这个函数会往响应头里添加一个 location属性,值为参数。 这个函数同样返回 this
+                                                  
+                                                  redirect(响应码,'值')  这个函数会往响应头里添加一个 location属性,值为参数,并且设置响应码,没传响应码,就默认为301
+                                                                        这个函数内部也会自动执行 end方法,表示发回完毕
+
+                                         send函数和redirect函数内部会执行 end方法
+                                                  
+                                                  其他api请求查看文档
+
+
+                                 Application函数的内部相当于: 
+                                         function Application(message,response){
+                                                    请求方式        请求路径
+                                              this[message.method][message.url](Request,Response)执行对应的函数时会传两个对象进去,但,这两个对象是经过express封装过的
+                                         }
+                                   如果根据请求方式和请求路径没办法匹配到 get方法或post方法的回调函数,会自动发回响应,响应码为404。
+ 
+                                 
+                                 请求方式函数:
+                                    请求方法函数的路径参数中可以有动态路由,如: '/abc/:id'。
+                                    那么请求过来的 路径中 /abc 后面的路径会被匹配进,id这里。跟vue的动态路由一样。
+                                    请求地址 '*' *号表示匹配所有路径。
+                                    
+
+                                    all('地址',回调)  这个方法表示所有请求方式,也就是所有请求方式都匹配   
+
+                                    use('地址',回调)  这个方法能匹配所有的请求方式,和宽松的请求地址 比如: 第一个参数为 '/abc'  能匹配到 /abc 、/abc/xxx ,能匹配到以 /abc/开头的
+                                                     可以不传第一个参数,表示匹配所有路径
+                                        
+                                    请求方式('地址',回调,.....回调); 从第二个回调开始,有4个形参的回调,报错了会执行这些回调
+
+                                  如果浏览器发现响应码是301或302,那么会找到响应头的localhost属性,根据这个属性的值重新发送请求。
+
+
+        
+        
+        
+        
+        
+        */
+  </script>
+</body>
+
+</html>

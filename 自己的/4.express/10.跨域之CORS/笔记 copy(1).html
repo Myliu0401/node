@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /* 
+                     跨域: 
+                       因为浏览器有同源策略限制,所以有跨域。
+                      
+                     同源策略: 
+                        协议、端口号、主机名(域名) 必须全部相同。
+                        否则浏览器会报错。
+
+
+                     解决方案----CORS
+                       CORS是基于http1.1的一种跨域解决方案,跨域资源共享。
+
+                       这个CORS它的思路是: 如果浏览器要跨域访问服务器的资源,需要获得服务器的允许。
+
+                       一个请求可以附带很多信息,从而会对服务器造成不同程序的影响。
+                          如: 有的请求只是获取数据,有的请求会改动服务器的数据,如:添加学生等等。
+
+                       针对不同的请求,CORS规定了三种不同的交互模式,分别是: 
+                           1.简单请求
+                           2.需要预检的请求
+                           3.附带身份凭证的请求
+                         这三种模式从上到下层层递进，请求可以做的事越来越多，要求也越来越严格。
+
+                       当浏览器端运行了一段ajax代发送请求时,浏览器会首先判断它属于哪一种请求模式。
+                         简单请求的判定: 
+                              1.请求方法属于下面的一种: 
+                                     get 、post 、head
+                               
+                              2.请求头仅包含安全的字段,常见的安全字段如下: 
+                                     Accept
+                                     Accept-Language
+                                     Content-Language
+                                     Content-Type
+                                     DPR
+                                     Downlink
+                                     Save-Data
+                                     Viewport-Width
+                                     Width
+                                  也就是只有浏览器自动设置的请求头的哪些属性。
+                                  或者上面的这些属性。
+                            
+                              3.请求头如果包含 Content-Type,仅限下面的值之一: 
+                                     text/plain
+                                     multipart/form-data
+                                     application/x-www-form-urlencoded
+ 
+                                如果以上三个条件同时满足,那么浏览器会判定位简单请求。
+                              
+                              简单请求的规范: 
+                                  当浏览器判定某个ajax跨域请求是简单请求时,会发生以下的事情。
+                                    1.请求头中会自动添加 Origin 字段
+                                        Origin属性的值为 当前页面的 协议和域名和端口号
+                                      详情看课件
+
+                                    2.服务器响应头中会包含 Access-Control-Allow-Origin
+                                        当服务器收到请求后,如果允许该请求跨域访问,需要在响应头中添加 Access-Control-Allow-Origin字段
+                                        这个字段的值可以是: 
+                                            *               表示什么Origin都可以访问
+                                            具体的Origin     表示只允许这个源访问
+
+                          
+                         需要预检的请求: 
+                               不是简单请求就是一个预检请求,就会按照下面的进行: 
+                               1.浏览器发送预检请求,询问服务器是否允许
+                               2.服务器允许
+                               3.浏览器发送真实请求
+                               4.服务器完成真实的响应
+                                
+                            1.浏览器发送预检请求,询问服务器是否允许
+                              请求方法是 OPTIONS
+                              请求头中会带 
+                                  Origin属性:源
+                                  Access-Control-Request-Method:真实请求的方法
+                                  Access-Control-Request-Headers:携带不是简单请求的属性
+                              这个预检请求没有请求体,它的目的是询问服务器,是否允许后续的真实请求。
+                              预检请求的特性: 
+                                 请求方法为OPTIONS
+                                 没有请求体                                                                              
+                                 请求头中包含
+                                 Origin：请求的源，和简单请求的含义一致
+                                 Access-Control-Request-Method：后续的真实请求将使用的请求方法
+                                 Access-Control-Request-Headers：后续的真实请求会改动的请求头
+
+                            2.服务器允许
+                              服务器收到预检请求后,如果想允许,需要响应下面的消息格式: 
+                                在请求头添加属性: 
+                                 Access-Control-Allow-Origin：和简单请求一样，表示允许的源
+                                 Access-Control-Allow-Methods：表示允许的后续真实的请求方法
+                                 Access-Control-Allow-Headers：表示允许改动的请求头
+                                 Access-Control-Max-Age：告诉浏览器，多少秒内，对于同样的请求源、方法、头，都不需要再发送预检请求了 
+                                         
+                            3.浏览器发送真实请求
+                              当预检别服务器允许后,浏览器就会发送真实的请求了。
+                              同样会在请求头添加属性: Origin:源
+
+                            4.服务器响应真实请求
+                              同样必须在响应头添加属性: 
+                                 Access-Control-Allow-Origin: 源
+                              表示同意这个源跨域
+
+
+                       附带身份凭证的请求: 
+                           默认情况下,ajax的跨域请求不会附带cookie,这样一来,某些需要权限的操作就无法进行了。
+
+                           可以通过配置来实现附带cookie。
+                             在原生的 ajax中: 
+                                 const xhr = new XMLHttpRequest();
+                                 xhr.withCredentials = true;
+
+                             在fetch中:
+                                fetch(url,{
+                                   credentials:'include'   include表示任何时候跨域请求都附带cookie
+                                })
+                             
+                             配置后,无论是简单请求,还是预检请求,都会在请求头中添加 cookie字段,而服务器
+                              响应时,需要明确告知客户端,服务器允许这样的凭证。
+                              在响应头中添加: Access-Control-Allow-Credentials: true
+                              对于一个附带身份凭证的请求，若服务器没有明确告知，浏览器仍然视为跨域被拒绝。
+                              对于附带身份凭证的请求，服务器不得设置 Access-Control-Allow-Origin 的值为*
+
+                       
+                        
+
+                        
+                        
+                       
+ 
+            
+                    
+                    
+
+                 
+                              
+        
+        
+        */
+  </script>
+</body>
+
+</html>

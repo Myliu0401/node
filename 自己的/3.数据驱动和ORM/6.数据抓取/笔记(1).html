@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+                  数据抓取: 
+                      从网页上源代码抓取数据进行分析。
+
+                    用到的库: 
+                         axios: 发送一个请求,得到服务器响应的结果(也就是原代码)
+                                这个库客户端和服务端通用
+                                
+                         cheerio: 这个库是jquery的核心库
+                                  用来分析请求到的源代码    
+                           这个库的功能大部分跟jq一样,但是这个库去除了dom,只根据html字符串来进行分析。
+
+                        
+                        这个cheerio库导出的函数的静态属性:
+                                              load(html字符串);     参数为一个html片段的字符串
+                                                      会返回一个函数,这个返回的函数跟jq的$函数,大致相同。
+                                                      可以调用该函数得到对应的字符串片段。
+
+                                                      返回的$函数参数只能查html字符串中的,跟jq一样,但是这个是根据字符串来分析的。
+                                           
+                        jq对象里的属性: 
+                                 attribs对象    这对象里面有dom的每个行间属性
+
+
+                                 
+
+                  查看 spider文件夹里的数据抓取例子
+        
+        
+        */
+    </script>
+</body>
+
+</html>
